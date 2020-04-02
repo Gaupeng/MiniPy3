@@ -2,63 +2,96 @@
 
 %{
     #include "customModels.hpp"
+    #include <vector>
     extern symbolTable st;
-
-    AST * tree = (AST *)malloc(sizeof(AST));
-    tree->root->value = "AST: ";
-    tree->root->left = NULL;
-    tree->root->right = NULL;
-
+    extern char * yytext;
     int valid = 1;
+    std::vector<node *> nullVec;
+    std::vector<node *> newVec;
 %}
 
 %token KEYWORD STRING_LIT NUMBER ID ENDF
 %token PRINT NL COLON GTE LTE GT LT TAB
 %token FOR WHILE IF ELSE IN DEF CLASS RETURN
 %token RET SPACE COMMA SEMICOLON ERROR
-%left PLUS MINUS MUL DIVIDE LBRACKET RBRACKET EQ
-%expect 16
+%left PLUS MINUS MUL DIVIDE LBRACKET RBRACKET
+%right EQ
 
 %%
-S :     stmt S
-        | NL S
+S :     stmt S {$$  = $1;}
+        | NL S {$$ = $2; printChildren($$.nodePtr);}
         | ENDF {printSymTable(&st); exit(1);}
     ;
 
-cond_lit :  ID
-            | NUMBER
-            | STRING_LIT
+cond_lit :      ID
+                {
+                $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
+                $$ = $1;
+                }
+                |       NUMBER  
+                        {
+                        $1.nodePtr = createNode(&st, "numConst", $1.value, nullVec, 0);
+                        $$ = $1;
+                        }
+                |       STRING_LIT      
+                        {
+                        $1.nodePtr = createNode(&st, "numConst", $1.value, nullVec, 0);
+                        $$ = $1;
+                        }
             ;
 
 
-stmt :  expre
-        | loops
-        | arith_expr
+stmt :  expre   {$$ = $1;}
+        |       loops   {$$ = $1;}
+        |       arith_expr      {$$ = $1;}
         ;
 
 repeat_stmt :   %empty
-                | stmt repeat_stmt
+                | stmt repeat_stmt {$$ = $1;}
                 ;
     
-expre : ID EQ ID {modifyID(&st, $1.value, $3.value);}
-        | ID SPACE EQ SPACE ID {modifyID(&st, $1.value, $5.value);}
-        | ID SPACE EQ SPACE STRING_LIT {modifyID(&st, $1.value, $5.value);}
-        | ID EQ NUMBER {modifyID(&st, $1.value, $3.value);}
-        | ID SPACE EQ SPACE NUMBER {modifyID(&st, $1.value, $5.value);}
-        | ID SPACE EQ SPACE cond_lit bin_op cond_lit {searchAndOp(&st, $1.value, $5.value, $6.value, $7.val);}
-        | ID SPACE EQ SPACE cond_lit SPACE bin_op SPACE cond_lit {searchAndOp(st, $1.value, $5.value, $7.value, $9.value);}
+expre : ID EQ arith_expr        {
+                                modifyID(&st, $1.value, $3.value);
+                                $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
+                                newVec.clear();
+                                newVec.push_back($1.nodePtr);
+                                newVec.push_back($3.nodePtr);
+                                $$.nodePtr = createNode(&st, "Symbol", "=", newVec, 2);
+                                printChildren($$.nodePtr);
+                                }
+        | ID SPACE EQ SPACE arith_expr  {
+                                        modifyID(&st, $1.value, $5.value);
+                                        $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
+                                        newVec.clear();
+                                        newVec.push_back($1.nodePtr);
+                                        newVec.push_back($5.nodePtr);
+                                        $$.nodePtr = createNode(&st, "Symbol", "=", newVec, 2);
+                                        printChildren($$.nodePtr);
+                                        }
         ;
 
-arith_expr :    cond_lit bin_op arith_expr
-                | cond_lit SPACE bin_op SPACE arith_expr
+arith_expr :    cond_lit bin_op arith_expr      {
+                                                newVec.clear();
+                                                newVec.push_back($1.nodePtr);
+                                                newVec.push_back($3.nodePtr);
+                                                $$.nodePtr = createNode(&st, "Symbol", $2.value, newVec, 2);
+                                                printChildren($$.nodePtr);
+                                                }
+                | cond_lit SPACE bin_op SPACE arith_expr        {
+                                                                newVec.clear();
+                                                                newVec.push_back($1.nodePtr);
+                                                                newVec.push_back($5.nodePtr);
+                                                                $$.nodePtr = createNode(&st, "Symbol", $3.value, newVec, 2);
+                                                                printChildren($$.nodePtr);
+                                                                }
+                | cond_lit      {
+                                $$ = $1;
+                                }
                 ;
 
 loops :  FOR SPACE conditions COLON body
-        | FOR SPACE conditions SPACE COLON body
         | FOR '(' conditions ')' COLON body
-        | FOR SPACE '(' conditions SPACE ')' COLON body
         | WHILE SPACE conditions COLON body
-        | WHILE SPACE conditions SPACE COLON body
         | WHILE '(' conditions ')' COLON body
         ;
 
@@ -66,23 +99,25 @@ body :  NL TAB stmt repeat_stmt S
         | NL SPACE stmt repeat_stmt S
         ;
 
-conditions :    cond_lit relop cond_lit
-                | cond_lit SPACE relop SPACE cond_lit
-                | cond_lit relop SPACE cond_lit
-                | cond_lit SPACE relop cond_lit
-                | cond_lit
-                | cond_lit SPACE IN SPACE cond_lit
+conditions :    cond_lit SPACE relop SPACE cond_lit {
+                                        newVec.clear();
+                                        newVec.push_back($1.nodePtr);
+                                        newVec.push_back($3.nodePtr);
+                                        $$.nodePtr = createNode(&st, " ", $2.value, newVec, 2);
+                                        }
+                | cond_lit {$$ = $1;}
                 ;
 
-relop : GT
-        | LT
-        | GTE
-        | LTE
+relop : GT {$$ = $1;}
+        | LT {$$ = $1;} 
+        | GTE {$$ = $1;}
+        | LTE {$$ = $1;}
         ;
 
-bin_op : PLUS
-         | DIVIDE
-         | MINUS
+bin_op : PLUS {$$ = $1;}
+         | DIVIDE {$$ = $1;}
+         | MINUS {$$ = $1;}
+         | MUL {$$ = $1;}
          ;
 %%
 

@@ -35,23 +35,23 @@ STRING_LIT \"([^\"\n])*\"|\'([^\'\n])*\'
 \=                                  {return (EQ);}
 "    "                              {scope++; return(TAB);}
 [ ]                                 {return(SPACE);}
-\+                                  {yylval.value = yytext; return (PLUS);}
-\-                                  {yylval.value = yytext; return (MINUS);}
-\*                                  {yylval.value = yytext; return (MUL);}
-\/                                  {yylval.value = yytext; return (DIVIDE);}
-\<                                  {return (LT);}
-\>                                  {return (GT);}
-\>\=                                {return (GTE);}                               
-\<\=                                {return (LTE);}                          
-\(                                  {return (LBRACKET);}
-\)                                  {return (RBRACKET);}
-\;                                  {return (SEMICOLON);}
-\:                                  {return (COLON);}
-\,                                  {return (COMMA);}
+\+                                  {yylval.type = "binOp"; yylval.value = "+"; return (PLUS);}
+\-                                  {yylval.type = "binOp"; yylval.value = "-"; return (MINUS);}
+\*                                  {yylval.type = "binOp"; yylval.value = "*"; return (MUL);}
+\/                                  {yylval.type = "binOp"; yylval.value = "/"; return (DIVIDE);}
+\<                                  {yylval.type = "relOp"; yylval.value = "<"; return (LT);}
+\>                                  {yylval.type = "relOp"; yylval.value = ">"; return (GT);}
+\>\=                                {yylval.type = "relOp"; yylval.value = ">="; return (GTE);}                               
+\<\=                                {yylval.type = "relOp"; yylval.value = "<="; return (LTE);}                          
+\(                                  {yylval.type = "sym"; yylval.value = "("; return (LBRACKET);}
+\)                                  {yylval.type = "sym"; yylval.value = ")"; return (RBRACKET);}
+\;                                  {yylval.type = "sym"; yylval.value = ";"; return (SEMICOLON);}
+\:                                  {yylval.type = "sym"; yylval.value = ":"; return (COLON);}
+\,                                  {yylval.type = "sym"; yylval.value = ","; return (COMMA);}
 "\n"                                {type = "var"; scope = 0; ++yylineno; return (NL);}
 
-{STRING_LIT}                        {yylval.value = yytext; return (STRING_LIT);}
-{NUMBER}                            {yylval.value = yytext; return (NUMBER);}
+{STRING_LIT}                        {yylval.type = "strConst"; yylval.value = string(yytext); return (STRING_LIT);}
+{NUMBER}                            {yylval.type = "numConst"; yylval.value = string(yytext);  return (NUMBER);}
 {IDENTIFIER}                        {
                                         cout << "(IDENTIFIER " << yytext << " -> scope: "<< scope << ", type: " <<  type << ")\n";                                         
                                         insertToken(&st, string(yytext), string(type), scope, yylineno);
@@ -61,6 +61,7 @@ STRING_LIT \"([^\"\n])*\"|\'([^\'\n])*\'
                                             type = "var";
                                             scope++;
                                         }
+                                        yylval.type = "ID";
                                         yylval.value = yytext;
                                         return(ID);
                                     }

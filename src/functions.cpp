@@ -35,110 +35,77 @@ void printSymTable(symbolTable *st)
 
 void modifyID(symbolTable *st, string left, string right)
 {
-    for(int i = 0; i < (st->symTab).size(); i++)
-    {
-        if(st->symTab[i].name == left)
-        {
-            st->symTab[i].value = right;
-        }
-    }
+    token * foundRec = getRecord(st, left);
+    foundRec->value = right;
+    return;
 }
 
-void searchAndOp(symbolTable *st, string dest, string left, string op, string right)
+token * getRecord(symbolTable *st, string key)
 {
-    int temp;
     for(int i = 0; i < (st->symTab).size(); i++)
     {
-        if(st->symTab[i].name == left)
+        if(st->symTab[i].name == key)
         {
-            temp = stoi(st->symTab[i].value);
-            if(op == "+")
-            {
-                temp += stoi(right);
-            }
-            else if(op == "-")
-            {
-                temp -= stoi(right);
-            }
-            else if(op == "*")
-            {
-                temp *= stoi(right);
-            }
-            else
-            {
-                temp /= stoi(right);
-            }
+            return &st->symTab[i];
         }
     }
-    for(int i = 0; i < (st->symTab).size(); i++)
-    {
-        if(st->symTab[i].name == dest)
-        {
-            st->symTab[i].value = to_string(temp);
-            return;
-        }
-    }
+    return NULL;
 }
 
-node * createNode(string value, node * left, node * right)
+
+node * createNode(symbolTable *st, std::string type, std::string value, std::vector<node *> &vec, int len)
 {
-    node * newNode = (node *)malloc(sizeof(node));
-    newNode->value = value;
-    newNode->left = left;
-    newNode->right = right;
+    node * newNode = new node;
+    newNode->type.assign(type);
+    newNode->value.assign(value);
+    cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
+    if(type == "ID")
+    {
+        newNode->record = getRecord(st, value);
+    }
+    newNode->numNodes = len;
+    for(int i = 0; i < len; i++)
+    {
+        newNode->ptrVec.push_back(vec[i]);
+    }
     return newNode;
 }
 
-/* Pre-order print */
 
-void printPreorder(node * root)
+void printNode(node * currNode)
 {
-    if(root == NULL)
+    cout << "Node Data" << endl;
+    cout << "Type: "<< currNode->type << endl;
+    cout << "Children: " << currNode->numNodes << endl;
+    cout << "Data: ";
+    if(currNode->type == "numConst")
     {
-        return;
+        cout << stoi(currNode->value) << endl;;
     }
-    printf("%s ", root->value);
-    printPreorder(root->left);
-    printPreorder(root->right);
-}
-
-void printPreorderWrap(AST * tree)
-{
-    printPreorder(tree->root);
-}
-
-/* Post-order Print */
-
-void printPostorder(node * root)
-{
-    if(root == NULL)
+    else if(currNode->type == "strConst")
     {
-        return;
+        cout << currNode->value << endl;;
     }
-    printPostorder(root->left);
-    printPostorder(root->right);
-    printf("%s ", root->value);
-}
-
-void printPostorderWrap(AST * tree)
-{
-    printPostorder(tree->root);
-}
-
-/* Inorder Print */ 
-void printInorder(node * root)
-{
-    if(root == NULL)
+    else if(currNode->type == "ID")
     {
-        return;
+        cout << currNode->record << endl;
     }
-    printInorder(root->left);
-    printf("%s ", root->value);
-    printInorder(root->right);
+    else if(currNode->type == "Symbol")
+    {
+        cout << currNode->value << endl;
+    }
+    
 }
 
-void printInorderWrap(AST * tree)
+void printChildren(node * currNode)
 {
-    printInorder(tree->root);
+    cout << "\n------------------" << endl;
+    if(currNode != NULL)
+    {
+        printNode(currNode);
+        for(int i = 0; i < currNode->numNodes; i++)
+        {
+            printChildren(currNode->ptrVec[i]);
+        }
+    }
 }
-

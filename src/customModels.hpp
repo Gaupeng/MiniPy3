@@ -1,45 +1,42 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <iostream>
 using namespace std;
-
-typedef struct 
-{
-    string value;
-} yylval_t;
 
 #define YYSTYPE yylval_t
 
 /* Symbol Table */
 
 typedef struct token{
-    string name;
-    string type;
-    string value;
+    std::string name;
+    std::string type;
+    std::string value;
     int scope;
     int lineNo;
 }token;
 
 typedef struct symbolTable{
-    vector<token> symTab;
+    std::vector<token> symTab;
 } symbolTable;
 
 /* Abstract Syntax Tree (AST) */
 
-typedef struct ASTnode{
-	string value;
-	string result;
-	string regName;
-	struct node *left;
-	struct node *right;
+typedef struct node{
+    token * record;
+    int numNodes;
+    std::string value;
+    std::string type;
+	std::vector<struct node *> ptrVec;
 } node;
 
-typedef struct AST{
-    node * root;
-} AST;
-
-
 /* General Functions */
+typedef struct 
+{
+    std::string type;
+    std::string value;
+    node * nodePtr;
+} yylval_t;
 
 int yylex(void);
 int yyerror(const char *s);
@@ -49,14 +46,10 @@ int yyerror(const char *s);
 void insertToken(symbolTable *st, string name, string type, int scope, int lineNo);
 void printSymTable(symbolTable *st);
 void modifyID(symbolTable * st, string left, string right);
-void searchAndOp(symbolTable *st, string dest, string left, string op, string right);
+token * getRecord(symbolTable *st, string key);
 
 /* AST Functions */ 
 
-node * createNode(string value, node * left, node * right);
-void printPreorderWrap(AST * tree);
-void printPostorderWrap(AST * tree);
-void printInorderWrap(AST * tree);
-void printPreorder(node * root);
-void printPostorder(node * root);
-void printInorder(node * root);
+node * createNode(symbolTable *st, std::string type, std::string value, std::vector<node *> &vec, int len);
+void printNode(node * currNode);
+void printChildren(node * currNode);
