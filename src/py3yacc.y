@@ -6,6 +6,7 @@
     extern symbolTable st;
     extern char * yytext;
     int valid = 1;
+    int tempReg = 0;
     std::vector<node *> nullVec;
     std::vector<node *> newVec;
 %}
@@ -67,6 +68,9 @@ expre : ID EQ arith_expr        {
                                         newVec.push_back($5.nodePtr);
                                         $$.nodePtr = createNode(&st, "Symbol", "=", newVec, 2);
                                         printChildren($$.nodePtr);
+                                        cout << "\nICG " << endl;
+                                        cout << "T" << tempReg << " = " << $5.value << endl;
+                                        cout << $1.value << " = " << "T" << tempReg++ << endl;
                                         }
         ;
 
@@ -76,6 +80,9 @@ arith_expr :    cond_lit bin_op arith_expr      {
                                                 newVec.push_back($3.nodePtr);
                                                 $$.nodePtr = createNode(&st, "Symbol", $2.value, newVec, 2);
                                                 printChildren($$.nodePtr);
+                                                cout << "\nICG : " << endl;
+                                                cout << "T" << tempReg << " = " << $3.value <<  endl;
+                                                cout << $1.value << " = " << "T" << tempReg++ << endl;
                                                 }
                 | cond_lit SPACE bin_op SPACE arith_expr        {
                                                                 newVec.clear();
@@ -83,6 +90,9 @@ arith_expr :    cond_lit bin_op arith_expr      {
                                                                 newVec.push_back($5.nodePtr);
                                                                 $$.nodePtr = createNode(&st, "Symbol", $3.value, newVec, 2);
                                                                 printChildren($$.nodePtr);
+                                                                cout << "\nICG " << endl;
+                                                                cout << "T" << tempReg << " = " << $5.value << endl;
+                                                                cout << $1.value << " = " << "T" << tempReg++ << endl;
                                                                 }
                 | cond_lit      {
                                 $$ = $1;
@@ -93,6 +103,7 @@ loops :  FOR SPACE conditions COLON body
         | FOR '(' conditions ')' COLON body
         | WHILE SPACE conditions COLON body
         | WHILE '(' conditions ')' COLON body
+        | IF SPACE conditions COLON body
         ;
 
 body :  NL TAB stmt repeat_stmt S

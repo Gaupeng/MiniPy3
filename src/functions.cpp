@@ -58,7 +58,7 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
     node * newNode = new node;
     newNode->type.assign(type);
     newNode->value.assign(value);
-    cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
+    cout << "\nCreated AST Node: " << newNode->type << ": " << newNode->value << endl;
     if(type == "ID")
     {
         newNode->record = getRecord(st, value);
@@ -80,19 +80,23 @@ void printNode(node * currNode)
     cout << "Data: ";
     if(currNode->type == "numConst")
     {
-        cout << stoi(currNode->value) << endl;;
+        cout << stoi(currNode->value) << endl;
+        cout << "\n------------------" << endl;
     }
     else if(currNode->type == "strConst")
     {
-        cout << currNode->value << endl;;
+        cout << currNode->value << endl;
+        cout << "\n------------------" << endl;
     }
     else if(currNode->type == "ID")
     {
         cout << currNode->record << endl;
+        cout << "\n------------------" << endl;
     }
     else if(currNode->type == "Symbol")
     {
         cout << currNode->value << endl;
+        cout << "\n------------------" << endl;
     }
     
 }

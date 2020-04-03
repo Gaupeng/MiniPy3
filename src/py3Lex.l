@@ -52,8 +52,7 @@ STRING_LIT \"([^\"\n])*\"|\'([^\'\n])*\'
 
 {STRING_LIT}                        {yylval.type = "strConst"; yylval.value = string(yytext); return (STRING_LIT);}
 {NUMBER}                            {yylval.type = "numConst"; yylval.value = string(yytext);  return (NUMBER);}
-{IDENTIFIER}                        {
-                                        cout << "(IDENTIFIER " << yytext << " -> scope: "<< scope << ", type: " <<  type << ")\n";                                         
+{IDENTIFIER}                        {       
                                         insertToken(&st, string(yytext), string(type), scope, yylineno);
                                         if (isFunc)
                                         {
