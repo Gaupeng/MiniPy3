@@ -1,8 +1,8 @@
 a = 10
 b = 20
+c = 30
 
-def summer(a, b):
-    c = a + b
-    return c
+if a:
+    a = b
 
-print(summer(a, b))
+e = 20

@@ -1,0 +1,179 @@
+
+Created AST Node: numConst: 10
+
+Created AST Node: ID: a
+
+Created AST Node: Symbol: =
+
+------------------
+Node Data
+Type: Symbol
+Children: 2
+Data: =
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c912126fb0
+
+------------------
+
+------------------
+Node Data
+Type: numConst
+Children: 0
+Data: 10
+
+------------------
+
+ICG 
+T0 = 10
+a = T0
+
+Created AST Node: numConst: 20
+
+Created AST Node: ID: b
+
+Created AST Node: Symbol: =
+
+------------------
+Node Data
+Type: Symbol
+Children: 2
+Data: =
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c9121282d8
+
+------------------
+
+------------------
+Node Data
+Type: numConst
+Children: 0
+Data: 20
+
+------------------
+
+ICG 
+T1 = 20
+b = T1
+
+Created AST Node: numConst: 30
+
+Created AST Node: ID: c
+
+Created AST Node: Symbol: =
+
+------------------
+Node Data
+Type: Symbol
+Children: 2
+Data: =
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c9121285d0
+
+------------------
+
+------------------
+Node Data
+Type: numConst
+Children: 0
+Data: 30
+
+------------------
+
+ICG 
+T2 = 30
+c = T2
+
+Created AST Node: ID: a
+
+Created AST Node: ID: b
+
+Created AST Node: ID: a
+
+Created AST Node: Symbol: =
+
+------------------
+Node Data
+Type: Symbol
+Children: 2
+Data: =
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c912128500
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c912128568
+
+------------------
+
+ICG 
+T3 = b
+a = T3
+
+Created AST Node: numConst: 20
+
+Created AST Node: ID: e
+
+Created AST Node: Symbol: =
+
+------------------
+Node Data
+Type: Symbol
+Children: 2
+Data: =
+
+------------------
+
+------------------
+Node Data
+Type: ID
+Children: 0
+Data: 0x55c912128638
+
+------------------
+
+------------------
+Node Data
+Type: numConst
+Children: 0
+Data: 20
+
+------------------
+
+ICG 
+T4 = 20
+e = T4
+
+SYMBOL TABLE: 
+Name  Type  Scope Line No. Value
+[a		var		1		6		b]
+[b		var		1		6		20]
+[c		var		0		3		30]
+[e		var		0		8		20]
