@@ -1,179 +1,333 @@
-
 Created AST Node: numConst: 10
-
 Created AST Node: ID: a
-
+Created AST Node: Symbol: =
+Created AST Node: numConst: 20
+Created AST Node: ID: b
+Created AST Node: Symbol: =
+Created AST Node: numConst: 30
+Created AST Node: ID: c
+Created AST Node: Symbol: =
+Created AST Node: ID: a
+Created AST Node: ID: b
+Created AST Node: numConst: 10
+Created AST Node: Symbol: +
+Created AST Node: Symbol: +
+Created AST Node: ID: d
+Created AST Node: Symbol: =
+Created AST Node: ID: a
+Created AST Node: ID: b
+Created AST Node: ID: a
+Created AST Node: Symbol: =
+Created AST Node: numConst: 20
+Created AST Node: ID: e
 Created AST Node: Symbol: =
 
-------------------
+SYMBOL TABLE: 
+Name   Type   Scope   Line No. Value
+[a		var		1		7		b]
+[b		var		1		7		20]
+[c		var		0		3		30]
+[d		var		0		4		+]
+[e		var		0		9		20]
+
+AST Nodes 
+
+---------------------
+
 Node Data
 Type: Symbol
+Value: =
 Children: 2
 Data: =
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: ID
+Value: a
 Children: 0
-Data: 0x55c912126fb0
+Data: 0x55e8194dbfb0
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: numConst
+Value: 10
 Children: 0
 Data: 10
 
-------------------
+---------------------
 
-ICG 
-T0 = 10
-a = T0
+---------------------
 
-Created AST Node: numConst: 20
-
-Created AST Node: ID: b
-
-Created AST Node: Symbol: =
-
-------------------
 Node Data
 Type: Symbol
+Value: =
 Children: 2
 Data: =
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: ID
+Value: b
 Children: 0
-Data: 0x55c9121282d8
+Data: 0x55e8194dd2f8
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: numConst
+Value: 20
 Children: 0
 Data: 20
 
-------------------
+---------------------
 
-ICG 
-T1 = 20
-b = T1
+---------------------
 
-Created AST Node: numConst: 30
-
-Created AST Node: ID: c
-
-Created AST Node: Symbol: =
-
-------------------
 Node Data
 Type: Symbol
+Value: =
 Children: 2
 Data: =
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: ID
+Value: c
 Children: 0
-Data: 0x55c9121285d0
+Data: 0x55e8194dd5f0
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: numConst
+Value: 30
 Children: 0
 Data: 30
 
-------------------
+---------------------
 
-ICG 
-T2 = 30
-c = T2
+---------------------
 
-Created AST Node: ID: a
-
-Created AST Node: ID: b
-
-Created AST Node: ID: a
-
-Created AST Node: Symbol: =
-
-------------------
 Node Data
 Type: Symbol
+Value: +
 Children: 2
-Data: =
+Data: +
 
-------------------
+---------------------
 
-------------------
+---------------------
+
 Node Data
 Type: ID
+Value: b
 Children: 0
-Data: 0x55c912128500
+Data: 0x55e8194dd588
 
-------------------
+---------------------
 
-------------------
-Node Data
-Type: ID
-Children: 0
-Data: 0x55c912128568
+---------------------
 
-------------------
-
-ICG 
-T3 = b
-a = T3
-
-Created AST Node: numConst: 20
-
-Created AST Node: ID: e
-
-Created AST Node: Symbol: =
-
-------------------
-Node Data
-Type: Symbol
-Children: 2
-Data: =
-
-------------------
-
-------------------
-Node Data
-Type: ID
-Children: 0
-Data: 0x55c912128638
-
-------------------
-
-------------------
 Node Data
 Type: numConst
+Value: 10
+Children: 0
+Data: 10
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: +
+Children: 2
+Data: +
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: a
+Children: 0
+Data: 0x55e8194dd520
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: +
+Children: 2
+Data: +
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: b
+Children: 0
+Data: 0x55e8194dd588
+
+---------------------
+
+---------------------
+
+Node Data
+Type: numConst
+Value: 10
+Children: 0
+Data: 10
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: =
+Children: 2
+Data: =
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: d
+Children: 0
+Data: 0x55e8194dd658
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: +
+Children: 2
+Data: +
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: a
+Children: 0
+Data: 0x55e8194dd520
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: +
+Children: 2
+Data: +
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: b
+Children: 0
+Data: 0x55e8194dd588
+
+---------------------
+
+---------------------
+
+Node Data
+Type: numConst
+Value: 10
+Children: 0
+Data: 10
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: =
+Children: 2
+Data: =
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: a
+Children: 0
+Data: 0x55e8194dd520
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: b
+Children: 0
+Data: 0x55e8194dd588
+
+---------------------
+
+---------------------
+
+Node Data
+Type: Symbol
+Value: =
+Children: 2
+Data: =
+
+---------------------
+
+---------------------
+
+Node Data
+Type: ID
+Value: e
+Children: 0
+Data: 0x55e8194de0f0
+
+---------------------
+
+---------------------
+
+Node Data
+Type: numConst
+Value: 20
 Children: 0
 Data: 20
 
-------------------
-
-ICG 
-T4 = 20
-e = T4
-
-SYMBOL TABLE: 
-Name  Type  Scope Line No. Value
-[a		var		1		6		b]
-[b		var		1		6		20]
-[c		var		0		3		30]
-[e		var		0		8		20]
+---------------------
