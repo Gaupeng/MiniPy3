@@ -9,19 +9,28 @@
     std::vector<node *> nullVec;
     std::vector<node *> newVec;
     std::vector<node *> ASTArray;
+    std::vector<quad *> quadTable;
+    std::vector<varCount *> countTable;
 %}
 
 %token KEYWORD STRING_LIT NUMBER ID ENDF
 %token PRINT NL COLON GTE LTE GT LT TAB
 %token FOR WHILE IF ELSE IN DEF CLASS RETURN
 %token RET SPACE COMMA SEMICOLON ERROR
-%left PLUS MINUS MUL DIVIDE LBRACKET RBRACKET
+%left PLUS MINUS
+%left MUL DIVIDE
+%left LBRACKET RBRACKET
 %right EQ
 
 %%
 S :     stmt S {$$  = $1;}
         | NL S {$$ = $2;}
-        | ENDF {printSymTable(&st); cout << "\nAST Nodes " << endl; printArray(ASTArray); exit(1);}
+        | ENDF  {
+                printSymTable(&st);
+                printArray(ASTArray);
+                printICG(&st, ASTArray, quadTable, countTable);
+                printCount(countTable);
+                exit(1);}
     ;
 
 cond_lit :      ID
@@ -36,7 +45,7 @@ cond_lit :      ID
                         }
                 |       STRING_LIT      
                         {
-                        $1.nodePtr = createNode(&st, "numConst", $1.value, nullVec, 0);
+                        $1.nodePtr = createNode(&st, "strConst", $1.value, nullVec, 0);
                         $$ = $1;
                         }
             ;
@@ -76,36 +85,72 @@ arith_expr :    cond_lit bin_op arith_expr      {
                                                 newVec.push_back($1.nodePtr);
                                                 newVec.push_back($3.nodePtr);
                                                 $$.nodePtr = createNode(&st, "Symbol", $2.value, newVec, 2);
-                                                ASTArray.push_back($$.nodePtr);
                                                 }
                 | cond_lit SPACE bin_op SPACE arith_expr        {
                                                                 newVec.clear();
                                                                 newVec.push_back($1.nodePtr);
                                                                 newVec.push_back($5.nodePtr);
                                                                 $$.nodePtr = createNode(&st, "Symbol", $3.value, newVec, 2);
-                                                                ASTArray.push_back($$.nodePtr);
                                                                 }
                 | cond_lit      {
                                 $$ = $1;
                                 }
                 ;
 
-loops :  FOR SPACE conditions COLON body
-        | FOR '(' conditions ')' COLON body
-        | WHILE SPACE conditions COLON body
-        | WHILE '(' conditions ')' COLON body
-        | IF SPACE conditions COLON body
+loops :  FOR SPACE conditions COLON body        {
+                                                newVec.clear();
+                                                newVec.push_back($3.nodePtr);
+                                                newVec.push_back($5.nodePtr);
+                                                $$.nodePtr = createNode(&st, "for", "for", newVec, 2);
+                                                ASTArray.push_back($$.nodePtr);
+                                                }
+        | FOR LBRACKET conditions RBRACKET COLON body   {
+                                                        newVec.clear();
+                                                        newVec.push_back($3.nodePtr);
+                                                        newVec.push_back($6.nodePtr);
+                                                        $$.nodePtr = createNode(&st, "for", "for", newVec, 2);
+                                                        ASTArray.push_back($$.nodePtr);
+                                                        }
+        | WHILE SPACE conditions COLON body     {
+                                                newVec.clear();
+                                                newVec.push_back($3.nodePtr);
+                                                newVec.push_back($5.nodePtr);
+                                                $$.nodePtr = createNode(&st, "while", "while", newVec, 2);
+                                                ASTArray.push_back($$.nodePtr);
+                                                }
+        | WHILE LBRACKET conditions RBRACKET COLON body {
+                                                        newVec.clear();
+                                                        newVec.push_back($3.nodePtr);
+                                                        newVec.push_back($6.nodePtr);
+                                                        $$.nodePtr = createNode(&st, "while", "while", newVec, 2);
+                                                        ASTArray.push_back($$.nodePtr);
+                                                        }
+        | IF SPACE conditions COLON body        {
+                                                newVec.clear();
+                                                newVec.push_back($3.nodePtr);
+                                                newVec.push_back($5.nodePtr);;
+                                                $$.nodePtr = createNode(&st, "if", "if", newVec, 2);
+                                                ASTArray.push_back($$.nodePtr);
+                                                }
+        | IF LBRACKET conditions RBRACKET COLON body    {
+                                                        newVec.clear();
+                                                        newVec.push_back($3.nodePtr);
+                                                        newVec.push_back($6.nodePtr);
+                                                        $$.nodePtr = createNode(&st, "if", "if", newVec, 2);
+                                                        ASTArray.push_back($$.nodePtr);
+                                                        }
         ;
 
-body :  NL TAB stmt repeat_stmt S
-        | NL SPACE stmt repeat_stmt S
+body :  NL TAB stmt repeat_stmt body {$$ = $3;}
+        | NL SPACE stmt repeat_stmt body {$$ = $3;}
+        | NL {$$ = $1;}
         ;
 
 conditions :    cond_lit SPACE relop SPACE cond_lit {
                                         newVec.clear();
                                         newVec.push_back($1.nodePtr);
-                                        newVec.push_back($3.nodePtr);
-                                        $$.nodePtr = createNode(&st, " ", $2.value, newVec, 2);
+                                        newVec.push_back($5.nodePtr);
+                                        $$.nodePtr = createNode(&st, " ", $3.value, newVec, 2);
                                         ASTArray.push_back($$.nodePtr);
                                         }
                 | cond_lit {$$ = $1;}
@@ -143,5 +188,6 @@ int main()
 	{
 		printf("Valid Program.\n");
 	}
+        printf("Invalid Program.\n");
 
 }

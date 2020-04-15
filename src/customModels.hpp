@@ -8,6 +8,8 @@ using namespace std;
 
 /* Symbol Table */
 
+/* lineNo specifies last line when symbol was used */
+
 typedef struct token{
     std::string name;
     std::string type;
@@ -29,6 +31,21 @@ typedef struct node{
     std::string type;
 	std::vector<struct node *> ptrVec;
 } node;
+
+/* ICG - Quads representation */
+typedef struct quad{
+    token * arg1;
+    token * arg2;
+    token * result;
+    std::string op;
+} quad;
+
+typedef struct varCount{
+    std::string name;
+    int value;
+    int lhsCount;
+    int rhsCount;
+} varCount;
 
 /* General Functions */
 typedef struct 
@@ -54,3 +71,17 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
 void printNode(node * currNode);
 void printChildren(node * currNode);
 void printArray(std::vector<node *> &ASTArray);
+
+/* ICG Functions */
+
+int isKey(node * currNode);
+int isBinOp(node * thisNode);
+int isNum(node * thisNode);
+int isAssign(node * thisNode);
+void addToVarTable(node * currNode, std::vector<varCount *> &countTable);
+node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
+ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable);
+void printICG(symbolTable *st, std::vector<node *> &ASTArray,
+ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable);
+void printQuad(quad * resQuad);
+void printCount(std::vector<varCount *> &countTable);

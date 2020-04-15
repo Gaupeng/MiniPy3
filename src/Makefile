@@ -1,3 +1,5 @@
+# Run ./a.out < ../test/testInput.py > ../test/output.txt
+
 a.out : lex.yy.c y.tab.c customModels.hpp 
 	g++ lex.yy.c y.tab.c functions.cpp -w -ll
 
