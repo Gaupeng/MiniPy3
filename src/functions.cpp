@@ -23,7 +23,7 @@ void insertToken(symbolTable *st, string name, string type, int scope, int lineN
 void printSymTable(symbolTable *st)
 {
     printf("\nSYMBOL TABLE: \n");
-    printf("%-5s %-5s %-5s %-5s %-5s\n", "Name", "Type", "Scope", "Line No.", "Value");
+    printf("%-6s %-6s %-7s %-6s %-5s\n", "Name", "Type", "Scope", "Line No.", "Value");
 
     for(int i = 0; i < (st->symTab).size(); i++)
     {
@@ -33,10 +33,10 @@ void printSymTable(symbolTable *st)
     return;
 }
 
-void modifyID(symbolTable *st, string left, string right)
+void modifyID(symbolTable *st, string left, node * right)
 {
     token * foundRec = getRecord(st, left);
-    foundRec->value = right;
+    foundRec->value = right->value;
     return;
 }
 
@@ -58,7 +58,7 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
     node * newNode = new node;
     newNode->type.assign(type);
     newNode->value.assign(value);
-    cout << "\nCreated AST Node: " << newNode->type << ": " << newNode->value << endl;
+    cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
     if(type == "ID")
     {
         newNode->record = getRecord(st, value);
@@ -74,36 +74,37 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
 
 void printNode(node * currNode)
 {
-    cout << "Node Data" << endl;
+    cout << "\nNode Data" << endl;
     cout << "Type: "<< currNode->type << endl;
+    cout << "Value: " << currNode->value << endl;
     cout << "Children: " << currNode->numNodes << endl;
     cout << "Data: ";
     if(currNode->type == "numConst")
     {
         cout << stoi(currNode->value) << endl;
-        cout << "\n------------------" << endl;
+        cout << "\n---------------------" << endl;
     }
     else if(currNode->type == "strConst")
     {
         cout << currNode->value << endl;
-        cout << "\n------------------" << endl;
+        cout << "\n---------------------" << endl;
     }
     else if(currNode->type == "ID")
     {
         cout << currNode->record << endl;
-        cout << "\n------------------" << endl;
+        cout << "\n---------------------" << endl;
     }
     else if(currNode->type == "Symbol")
     {
         cout << currNode->value << endl;
-        cout << "\n------------------" << endl;
+        cout << "\n---------------------" << endl;
     }
     
 }
 
 void printChildren(node * currNode)
 {
-    cout << "\n------------------" << endl;
+    cout << "\n---------------------" << endl;
     if(currNode != NULL)
     {
         printNode(currNode);
@@ -111,5 +112,14 @@ void printChildren(node * currNode)
         {
             printChildren(currNode->ptrVec[i]);
         }
+    }
+}
+
+
+void printArray(std::vector<node *> &ASTArray)
+{
+    for(int i = 0; i < ASTArray.size(); i++)
+    {
+        printChildren(ASTArray[i]);
     }
 }

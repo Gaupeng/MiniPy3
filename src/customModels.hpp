@@ -45,7 +45,7 @@ int yyerror(const char *s);
 
 void insertToken(symbolTable *st, string name, string type, int scope, int lineNo);
 void printSymTable(symbolTable *st);
-void modifyID(symbolTable * st, string left, string right);
+void modifyID(symbolTable * st, string left, node * right);
 token * getRecord(symbolTable *st, string key);
 
 /* AST Functions */ 
@@ -53,3 +53,4 @@ token * getRecord(symbolTable *st, string key);
 node * createNode(symbolTable *st, std::string type, std::string value, std::vector<node *> &vec, int len);
 void printNode(node * currNode);
 void printChildren(node * currNode);
+void printArray(std::vector<node *> &ASTArray);

@@ -1,0 +1,924 @@
+Terminals unused in grammar
+
+   KEYWORD
+   PRINT
+   ELSE
+   IN
+   DEF
+   CLASS
+   RETURN
+   RET
+   COMMA
+   SEMICOLON
+   ERROR
+   LBRACKET
+   RBRACKET
+
+
+State 3 conflicts: 1 shift/reduce
+State 69 conflicts: 6 shift/reduce
+State 70 conflicts: 6 shift/reduce
+State 71 conflicts: 6 shift/reduce
+
+
+Grammar
+
+    0 $accept: S $end
+
+    1 S: stmt S
+    2  | NL S
+    3  | ENDF
+
+    4 cond_lit: ID
+    5         | NUMBER
+    6         | STRING_LIT
+
+    7 stmt: expre
+    8     | loops
+    9     | arith_expr
+
+   10 repeat_stmt: %empty
+   11            | stmt repeat_stmt
+
+   12 expre: ID EQ arith_expr
+   13      | ID SPACE EQ SPACE arith_expr
+
+   14 arith_expr: cond_lit bin_op arith_expr
+   15           | cond_lit SPACE bin_op SPACE arith_expr
+   16           | cond_lit
+
+   17 loops: FOR SPACE conditions COLON body
+   18      | FOR '(' conditions ')' COLON body
+   19      | WHILE SPACE conditions COLON body
+   20      | WHILE '(' conditions ')' COLON body
+   21      | IF SPACE conditions COLON body
+
+   22 body: NL TAB stmt repeat_stmt S
+   23     | NL SPACE stmt repeat_stmt S
+
+   24 conditions: cond_lit SPACE relop SPACE cond_lit
+   25           | cond_lit
+
+   26 relop: GT
+   27      | LT
+   28      | GTE
+   29      | LTE
+
+   30 bin_op: PLUS
+   31       | DIVIDE
+   32       | MINUS
+   33       | MUL
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+'(' (40) 18 20
+')' (41) 18 20
+error (256)
+KEYWORD (258)
+STRING_LIT (259) 6
+NUMBER (260) 5
+ID (261) 4 12 13
+ENDF (262) 3
+PRINT (263)
+NL (264) 2 22 23
+COLON (265) 17 18 19 20 21
+GTE (266) 28
+LTE (267) 29
+GT (268) 26
+LT (269) 27
+TAB (270) 22
+FOR (271) 17 18
+WHILE (272) 19 20
+IF (273) 21
+ELSE (274)
+IN (275)
+DEF (276)
+CLASS (277)
+RETURN (278)
+RET (279)
+SPACE (280) 13 15 17 19 21 23 24
+COMMA (281)
+SEMICOLON (282)
+ERROR (283)
+PLUS (284) 30
+MINUS (285) 32
+MUL (286) 33
+DIVIDE (287) 31
+LBRACKET (288)
+RBRACKET (289)
+EQ (290) 12 13
+
+
+Nonterminals, with rules where they appear
+
+$accept (38)
+    on left: 0
+S (39)
+    on left: 1 2 3, on right: 0 1 2 22 23
+cond_lit (40)
+    on left: 4 5 6, on right: 14 15 16 24 25
+stmt (41)
+    on left: 7 8 9, on right: 1 11 22 23
+repeat_stmt (42)
+    on left: 10 11, on right: 11 22 23
+expre (43)
+    on left: 12 13, on right: 7
+arith_expr (44)
+    on left: 14 15 16, on right: 9 12 13 14 15
+loops (45)
+    on left: 17 18 19 20 21, on right: 8
+body (46)
+    on left: 22 23, on right: 17 18 19 20 21
+conditions (47)
+    on left: 24 25, on right: 17 18 19 20 21
+relop (48)
+    on left: 26 27 28 29, on right: 24
+bin_op (49)
+    on left: 30 31 32 33, on right: 14 15
+
+
+State 0
+
+    0 $accept: . S $end
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    ENDF        shift, and go to state 4
+    NL          shift, and go to state 5
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    S           go to state 9
+    cond_lit    go to state 10
+    stmt        go to state 11
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 1
+
+    6 cond_lit: STRING_LIT .
+
+    $default  reduce using rule 6 (cond_lit)
+
+
+State 2
+
+    5 cond_lit: NUMBER .
+
+    $default  reduce using rule 5 (cond_lit)
+
+
+State 3
+
+    4 cond_lit: ID .
+   12 expre: ID . EQ arith_expr
+   13      | ID . SPACE EQ SPACE arith_expr
+
+    SPACE  shift, and go to state 15
+    EQ     shift, and go to state 16
+
+    SPACE     [reduce using rule 4 (cond_lit)]
+    $default  reduce using rule 4 (cond_lit)
+
+
+State 4
+
+    3 S: ENDF .
+
+    $default  reduce using rule 3 (S)
+
+
+State 5
+
+    2 S: NL . S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    ENDF        shift, and go to state 4
+    NL          shift, and go to state 5
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    S           go to state 17
+    cond_lit    go to state 10
+    stmt        go to state 11
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 6
+
+   17 loops: FOR . SPACE conditions COLON body
+   18      | FOR . '(' conditions ')' COLON body
+
+    SPACE  shift, and go to state 18
+    '('    shift, and go to state 19
+
+
+State 7
+
+   19 loops: WHILE . SPACE conditions COLON body
+   20      | WHILE . '(' conditions ')' COLON body
+
+    SPACE  shift, and go to state 20
+    '('    shift, and go to state 21
+
+
+State 8
+
+   21 loops: IF . SPACE conditions COLON body
+
+    SPACE  shift, and go to state 22
+
+
+State 9
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 23
+
+
+State 10
+
+   14 arith_expr: cond_lit . bin_op arith_expr
+   15           | cond_lit . SPACE bin_op SPACE arith_expr
+   16           | cond_lit .
+
+    SPACE   shift, and go to state 24
+    PLUS    shift, and go to state 25
+    MINUS   shift, and go to state 26
+    MUL     shift, and go to state 27
+    DIVIDE  shift, and go to state 28
+
+    $default  reduce using rule 16 (arith_expr)
+
+    bin_op  go to state 29
+
+
+State 11
+
+    1 S: stmt . S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    ENDF        shift, and go to state 4
+    NL          shift, and go to state 5
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    S           go to state 30
+    cond_lit    go to state 10
+    stmt        go to state 11
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 12
+
+    7 stmt: expre .
+
+    $default  reduce using rule 7 (stmt)
+
+
+State 13
+
+    9 stmt: arith_expr .
+
+    $default  reduce using rule 9 (stmt)
+
+
+State 14
+
+    8 stmt: loops .
+
+    $default  reduce using rule 8 (stmt)
+
+
+State 15
+
+   13 expre: ID SPACE . EQ SPACE arith_expr
+
+    EQ  shift, and go to state 31
+
+
+State 16
+
+   12 expre: ID EQ . arith_expr
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 10
+    arith_expr  go to state 33
+
+
+State 17
+
+    2 S: NL S .
+
+    $default  reduce using rule 2 (S)
+
+
+State 18
+
+   17 loops: FOR SPACE . conditions COLON body
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 34
+    conditions  go to state 35
+
+
+State 19
+
+   18 loops: FOR '(' . conditions ')' COLON body
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 34
+    conditions  go to state 36
+
+
+State 20
+
+   19 loops: WHILE SPACE . conditions COLON body
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 34
+    conditions  go to state 37
+
+
+State 21
+
+   20 loops: WHILE '(' . conditions ')' COLON body
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 34
+    conditions  go to state 38
+
+
+State 22
+
+   21 loops: IF SPACE . conditions COLON body
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 34
+    conditions  go to state 39
+
+
+State 23
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+State 24
+
+   15 arith_expr: cond_lit SPACE . bin_op SPACE arith_expr
+
+    PLUS    shift, and go to state 25
+    MINUS   shift, and go to state 26
+    MUL     shift, and go to state 27
+    DIVIDE  shift, and go to state 28
+
+    bin_op  go to state 40
+
+
+State 25
+
+   30 bin_op: PLUS .
+
+    $default  reduce using rule 30 (bin_op)
+
+
+State 26
+
+   32 bin_op: MINUS .
+
+    $default  reduce using rule 32 (bin_op)
+
+
+State 27
+
+   33 bin_op: MUL .
+
+    $default  reduce using rule 33 (bin_op)
+
+
+State 28
+
+   31 bin_op: DIVIDE .
+
+    $default  reduce using rule 31 (bin_op)
+
+
+State 29
+
+   14 arith_expr: cond_lit bin_op . arith_expr
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 10
+    arith_expr  go to state 41
+
+
+State 30
+
+    1 S: stmt S .
+
+    $default  reduce using rule 1 (S)
+
+
+State 31
+
+   13 expre: ID SPACE EQ . SPACE arith_expr
+
+    SPACE  shift, and go to state 42
+
+
+State 32
+
+    4 cond_lit: ID .
+
+    $default  reduce using rule 4 (cond_lit)
+
+
+State 33
+
+   12 expre: ID EQ arith_expr .
+
+    $default  reduce using rule 12 (expre)
+
+
+State 34
+
+   24 conditions: cond_lit . SPACE relop SPACE cond_lit
+   25           | cond_lit .
+
+    SPACE  shift, and go to state 43
+
+    $default  reduce using rule 25 (conditions)
+
+
+State 35
+
+   17 loops: FOR SPACE conditions . COLON body
+
+    COLON  shift, and go to state 44
+
+
+State 36
+
+   18 loops: FOR '(' conditions . ')' COLON body
+
+    ')'  shift, and go to state 45
+
+
+State 37
+
+   19 loops: WHILE SPACE conditions . COLON body
+
+    COLON  shift, and go to state 46
+
+
+State 38
+
+   20 loops: WHILE '(' conditions . ')' COLON body
+
+    ')'  shift, and go to state 47
+
+
+State 39
+
+   21 loops: IF SPACE conditions . COLON body
+
+    COLON  shift, and go to state 48
+
+
+State 40
+
+   15 arith_expr: cond_lit SPACE bin_op . SPACE arith_expr
+
+    SPACE  shift, and go to state 49
+
+
+State 41
+
+   14 arith_expr: cond_lit bin_op arith_expr .
+
+    $default  reduce using rule 14 (arith_expr)
+
+
+State 42
+
+   13 expre: ID SPACE EQ SPACE . arith_expr
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 10
+    arith_expr  go to state 50
+
+
+State 43
+
+   24 conditions: cond_lit SPACE . relop SPACE cond_lit
+
+    GTE  shift, and go to state 51
+    LTE  shift, and go to state 52
+    GT   shift, and go to state 53
+    LT   shift, and go to state 54
+
+    relop  go to state 55
+
+
+State 44
+
+   17 loops: FOR SPACE conditions COLON . body
+
+    NL  shift, and go to state 56
+
+    body  go to state 57
+
+
+State 45
+
+   18 loops: FOR '(' conditions ')' . COLON body
+
+    COLON  shift, and go to state 58
+
+
+State 46
+
+   19 loops: WHILE SPACE conditions COLON . body
+
+    NL  shift, and go to state 56
+
+    body  go to state 59
+
+
+State 47
+
+   20 loops: WHILE '(' conditions ')' . COLON body
+
+    COLON  shift, and go to state 60
+
+
+State 48
+
+   21 loops: IF SPACE conditions COLON . body
+
+    NL  shift, and go to state 56
+
+    body  go to state 61
+
+
+State 49
+
+   15 arith_expr: cond_lit SPACE bin_op SPACE . arith_expr
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit    go to state 10
+    arith_expr  go to state 62
+
+
+State 50
+
+   13 expre: ID SPACE EQ SPACE arith_expr .
+
+    $default  reduce using rule 13 (expre)
+
+
+State 51
+
+   28 relop: GTE .
+
+    $default  reduce using rule 28 (relop)
+
+
+State 52
+
+   29 relop: LTE .
+
+    $default  reduce using rule 29 (relop)
+
+
+State 53
+
+   26 relop: GT .
+
+    $default  reduce using rule 26 (relop)
+
+
+State 54
+
+   27 relop: LT .
+
+    $default  reduce using rule 27 (relop)
+
+
+State 55
+
+   24 conditions: cond_lit SPACE relop . SPACE cond_lit
+
+    SPACE  shift, and go to state 63
+
+
+State 56
+
+   22 body: NL . TAB stmt repeat_stmt S
+   23     | NL . SPACE stmt repeat_stmt S
+
+    TAB    shift, and go to state 64
+    SPACE  shift, and go to state 65
+
+
+State 57
+
+   17 loops: FOR SPACE conditions COLON body .
+
+    $default  reduce using rule 17 (loops)
+
+
+State 58
+
+   18 loops: FOR '(' conditions ')' COLON . body
+
+    NL  shift, and go to state 56
+
+    body  go to state 66
+
+
+State 59
+
+   19 loops: WHILE SPACE conditions COLON body .
+
+    $default  reduce using rule 19 (loops)
+
+
+State 60
+
+   20 loops: WHILE '(' conditions ')' COLON . body
+
+    NL  shift, and go to state 56
+
+    body  go to state 67
+
+
+State 61
+
+   21 loops: IF SPACE conditions COLON body .
+
+    $default  reduce using rule 21 (loops)
+
+
+State 62
+
+   15 arith_expr: cond_lit SPACE bin_op SPACE arith_expr .
+
+    $default  reduce using rule 15 (arith_expr)
+
+
+State 63
+
+   24 conditions: cond_lit SPACE relop SPACE . cond_lit
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 32
+
+    cond_lit  go to state 68
+
+
+State 64
+
+   22 body: NL TAB . stmt repeat_stmt S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    cond_lit    go to state 10
+    stmt        go to state 69
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 65
+
+   23 body: NL SPACE . stmt repeat_stmt S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    cond_lit    go to state 10
+    stmt        go to state 70
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 66
+
+   18 loops: FOR '(' conditions ')' COLON body .
+
+    $default  reduce using rule 18 (loops)
+
+
+State 67
+
+   20 loops: WHILE '(' conditions ')' COLON body .
+
+    $default  reduce using rule 20 (loops)
+
+
+State 68
+
+   24 conditions: cond_lit SPACE relop SPACE cond_lit .
+
+    $default  reduce using rule 24 (conditions)
+
+
+State 69
+
+   22 body: NL TAB stmt . repeat_stmt S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    STRING_LIT  [reduce using rule 10 (repeat_stmt)]
+    NUMBER      [reduce using rule 10 (repeat_stmt)]
+    ID          [reduce using rule 10 (repeat_stmt)]
+    FOR         [reduce using rule 10 (repeat_stmt)]
+    WHILE       [reduce using rule 10 (repeat_stmt)]
+    IF          [reduce using rule 10 (repeat_stmt)]
+    $default    reduce using rule 10 (repeat_stmt)
+
+    cond_lit     go to state 10
+    stmt         go to state 71
+    repeat_stmt  go to state 72
+    expre        go to state 12
+    arith_expr   go to state 13
+    loops        go to state 14
+
+
+State 70
+
+   23 body: NL SPACE stmt . repeat_stmt S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    STRING_LIT  [reduce using rule 10 (repeat_stmt)]
+    NUMBER      [reduce using rule 10 (repeat_stmt)]
+    ID          [reduce using rule 10 (repeat_stmt)]
+    FOR         [reduce using rule 10 (repeat_stmt)]
+    WHILE       [reduce using rule 10 (repeat_stmt)]
+    IF          [reduce using rule 10 (repeat_stmt)]
+    $default    reduce using rule 10 (repeat_stmt)
+
+    cond_lit     go to state 10
+    stmt         go to state 71
+    repeat_stmt  go to state 73
+    expre        go to state 12
+    arith_expr   go to state 13
+    loops        go to state 14
+
+
+State 71
+
+   11 repeat_stmt: stmt . repeat_stmt
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    STRING_LIT  [reduce using rule 10 (repeat_stmt)]
+    NUMBER      [reduce using rule 10 (repeat_stmt)]
+    ID          [reduce using rule 10 (repeat_stmt)]
+    FOR         [reduce using rule 10 (repeat_stmt)]
+    WHILE       [reduce using rule 10 (repeat_stmt)]
+    IF          [reduce using rule 10 (repeat_stmt)]
+    $default    reduce using rule 10 (repeat_stmt)
+
+    cond_lit     go to state 10
+    stmt         go to state 71
+    repeat_stmt  go to state 74
+    expre        go to state 12
+    arith_expr   go to state 13
+    loops        go to state 14
+
+
+State 72
+
+   22 body: NL TAB stmt repeat_stmt . S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    ENDF        shift, and go to state 4
+    NL          shift, and go to state 5
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    S           go to state 75
+    cond_lit    go to state 10
+    stmt        go to state 11
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 73
+
+   23 body: NL SPACE stmt repeat_stmt . S
+
+    STRING_LIT  shift, and go to state 1
+    NUMBER      shift, and go to state 2
+    ID          shift, and go to state 3
+    ENDF        shift, and go to state 4
+    NL          shift, and go to state 5
+    FOR         shift, and go to state 6
+    WHILE       shift, and go to state 7
+    IF          shift, and go to state 8
+
+    S           go to state 76
+    cond_lit    go to state 10
+    stmt        go to state 11
+    expre       go to state 12
+    arith_expr  go to state 13
+    loops       go to state 14
+
+
+State 74
+
+   11 repeat_stmt: stmt repeat_stmt .
+
+    $default  reduce using rule 11 (repeat_stmt)
+
+
+State 75
+
+   22 body: NL TAB stmt repeat_stmt S .
+
+    $default  reduce using rule 22 (body)
+
+
+State 76
+
+   23 body: NL SPACE stmt repeat_stmt S .
+
+    $default  reduce using rule 23 (body)

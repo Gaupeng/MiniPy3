@@ -6,9 +6,9 @@
     extern symbolTable st;
     extern char * yytext;
     int valid = 1;
-    int tempReg = 0;
     std::vector<node *> nullVec;
     std::vector<node *> newVec;
+    std::vector<node *> ASTArray;
 %}
 
 %token KEYWORD STRING_LIT NUMBER ID ENDF
@@ -20,8 +20,8 @@
 
 %%
 S :     stmt S {$$  = $1;}
-        | NL S {$$ = $2; printChildren($$.nodePtr);}
-        | ENDF {printSymTable(&st); exit(1);}
+        | NL S {$$ = $2;}
+        | ENDF {printSymTable(&st); cout << "\nAST Nodes " << endl; printArray(ASTArray); exit(1);}
     ;
 
 cond_lit :      ID
@@ -52,25 +52,22 @@ repeat_stmt :   %empty
                 ;
     
 expre : ID EQ arith_expr        {
-                                modifyID(&st, $1.value, $3.value);
+                                modifyID(&st, $1.value, $3.nodePtr);
                                 $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
                                 newVec.clear();
                                 newVec.push_back($1.nodePtr);
                                 newVec.push_back($3.nodePtr);
                                 $$.nodePtr = createNode(&st, "Symbol", "=", newVec, 2);
-                                printChildren($$.nodePtr);
+                                ASTArray.push_back($$.nodePtr);
                                 }
         | ID SPACE EQ SPACE arith_expr  {
-                                        modifyID(&st, $1.value, $5.value);
+                                        modifyID(&st, $1.value, $5.nodePtr);
                                         $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
                                         newVec.clear();
                                         newVec.push_back($1.nodePtr);
                                         newVec.push_back($5.nodePtr);
                                         $$.nodePtr = createNode(&st, "Symbol", "=", newVec, 2);
-                                        printChildren($$.nodePtr);
-                                        cout << "\nICG " << endl;
-                                        cout << "T" << tempReg << " = " << $5.value << endl;
-                                        cout << $1.value << " = " << "T" << tempReg++ << endl;
+                                        ASTArray.push_back($$.nodePtr);
                                         }
         ;
 
@@ -79,20 +76,14 @@ arith_expr :    cond_lit bin_op arith_expr      {
                                                 newVec.push_back($1.nodePtr);
                                                 newVec.push_back($3.nodePtr);
                                                 $$.nodePtr = createNode(&st, "Symbol", $2.value, newVec, 2);
-                                                printChildren($$.nodePtr);
-                                                cout << "\nICG : " << endl;
-                                                cout << "T" << tempReg << " = " << $3.value <<  endl;
-                                                cout << $1.value << " = " << "T" << tempReg++ << endl;
+                                                ASTArray.push_back($$.nodePtr);
                                                 }
                 | cond_lit SPACE bin_op SPACE arith_expr        {
                                                                 newVec.clear();
                                                                 newVec.push_back($1.nodePtr);
                                                                 newVec.push_back($5.nodePtr);
                                                                 $$.nodePtr = createNode(&st, "Symbol", $3.value, newVec, 2);
-                                                                printChildren($$.nodePtr);
-                                                                cout << "\nICG " << endl;
-                                                                cout << "T" << tempReg << " = " << $5.value << endl;
-                                                                cout << $1.value << " = " << "T" << tempReg++ << endl;
+                                                                ASTArray.push_back($$.nodePtr);
                                                                 }
                 | cond_lit      {
                                 $$ = $1;
@@ -115,6 +106,7 @@ conditions :    cond_lit SPACE relop SPACE cond_lit {
                                         newVec.push_back($1.nodePtr);
                                         newVec.push_back($3.nodePtr);
                                         $$.nodePtr = createNode(&st, " ", $2.value, newVec, 2);
+                                        ASTArray.push_back($$.nodePtr);
                                         }
                 | cond_lit {$$ = $1;}
                 ;
