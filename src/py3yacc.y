@@ -27,7 +27,7 @@ S :     stmt S {$$  = $1;}
         | NL S {$$ = $2;}
         | ENDF  {
                 printSymTable(&st);
-                printArray(ASTArray);
+                        /* printArray(ASTArray); */
                 printICG(&st, ASTArray, quadTable, countTable);
                 printCount(countTable);
                 exit(1);}
@@ -160,6 +160,7 @@ relop : GT {$$ = $1;}
         | LT {$$ = $1;} 
         | GTE {$$ = $1;}
         | LTE {$$ = $1;}
+        | IN {$$ = $1;}
         ;
 
 bin_op : PLUS {$$ = $1;}

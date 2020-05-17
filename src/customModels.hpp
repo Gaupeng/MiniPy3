@@ -42,7 +42,7 @@ typedef struct quad{
 
 typedef struct varCount{
     std::string name;
-    int value;
+    string value;
     int lhsCount;
     int rhsCount;
 } varCount;

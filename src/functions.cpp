@@ -186,7 +186,7 @@ int isNum(node * thisNode)
 
 int isAssign(node * thisNode)
 {
-    if(thisNode->ptrVec[1]->type == "numConst")
+    if(thisNode->ptrVec[1]->type != "Symbol")
     {
         return 1;
     }
@@ -195,20 +195,31 @@ int isAssign(node * thisNode)
 
 void addToVarTable(node * currNode, std::vector<varCount *> &countTable)
 {
+
     if(currNode->value == "=")
     {
+        if(currNode->ptrVec[1]->type == "ID")
+        {
+            for(int i = 0; i < countTable.size(); i++)
+            {
+                if(countTable[i]->name == currNode->ptrVec[1]->value)
+                {
+                    countTable[i]->rhsCount++;
+                }
+            }
+        }
         for(int i = 0; i < countTable.size(); i++)
         {
             if(countTable[i]->name == currNode->ptrVec[0]->value)
             {
-                countTable[i]->value = stoi(currNode->ptrVec[1]->value);
+                countTable[i]->value = currNode->ptrVec[1]->value;
                 countTable[i]->lhsCount++;
                 return;
             }
         }   
         varCount * temp = new varCount;
         temp->lhsCount = 1;
-        temp->value = stoi(currNode->ptrVec[1]->value);
+        temp->value = currNode->ptrVec[1]->value;
         temp->rhsCount = 0;
         temp->name = currNode->ptrVec[0]->value;
         countTable.push_back(temp);
@@ -235,10 +246,6 @@ void addToVarTable(node * currNode, std::vector<varCount *> &countTable)
 node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
  std::vector<quad *> &quadTable, std::vector<varCount *> &countTable)
 {
-        // cout << currNode->ptrVec[0]->value << endl;
-        // cout << "CurrNode: " << currNode->value << endl;
-        // cout << currNode->ptrVec[1]->value << endl;
-
         /* 
         Quads logic:
         a = b * c, should have:
@@ -268,6 +275,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
                 rightChild = parent->ptrVec[1];
                 if(isBinOp(rightChild))
                 {
+                    parent->ptrVec[1] = createNodeICG(st, rightChild, tempUsed, quadTable, countTable);
                     parent = createNodeICG(st, parent, tempUsed, quadTable, countTable);
                     cout << currNode->ptrVec[0]->value << " = " << parent->value << endl;
                     return parent;
@@ -277,6 +285,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
                 newQuad->op = parent->value;
                 newQuad->result = new token;
                 newQuad->result = currNode->ptrVec[0]->record;
+                quadTable.push_back(newQuad);
                 printQuad(newQuad); 
                 return parent;
             }
@@ -285,6 +294,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
             newQuad->result = new token;
             newQuad->result = currNode->ptrVec[0]->record;
             newQuad->op = currNode->value;
+            quadTable.push_back(newQuad);
             printQuad(newQuad); 
             return parent;
         }
@@ -299,14 +309,29 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
         }
         quad * newQuad = new quad;
         newQuad->op = currNode->value;
-        newQuad->arg1 = currNode->ptrVec[0]->record;
-        newQuad->arg2 = currNode->ptrVec[1]->record;
+
+        string arg1Name = currNode->ptrVec[0]->record->name;
+        string arg2Name = currNode->ptrVec[1]->record->name;
+
         std::string newTemp = "T" + to_string((*tempUsed)++);
         insertToken(st, newTemp, "var", 0, -1);
+
+        // getting arg1 and arg2 before insert token
+        // does some weird shit(?)
+        // pointer is changing? !!!
+
+        token * newTempRec = getRecord(st, arg1Name);
+        newQuad->arg1 = newTempRec;
+        newTempRec = getRecord(st, arg2Name);
+        newQuad->arg2 = newTempRec;
+
         newQuad->result = new token;
         token * tempRec = getRecord(st, newTemp);
         newQuad->result = tempRec;
+
+        quadTable.push_back(newQuad);
         printQuad(newQuad);
+
         node * newNode = new node;
         newNode->ptrVec.push_back(currNode);
         newNode->value = newTemp;
@@ -317,13 +342,17 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
 
     else if(isKey(currNode))
     {
-        if(currNode->value == "if")
-        {
-            cout << "if " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
-                << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << currNode->ptrVec[1] << endl;
-            cout << "ifFalse " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
-                << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << "Next Node" << endl;
-        }
+        cout << "if " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
+            << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << currNode->ptrVec[1] << endl;
+        cout << "ifFalse " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
+            << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << "Next Node" << endl;
+
+        quad * newQuad = new quad;
+        newQuad->op = currNode->ptrVec[0]->value;
+        newQuad->arg1 = currNode->ptrVec[0]->ptrVec[0]->record;
+        newQuad->arg2 = currNode->ptrVec[0]->ptrVec[1]->record;
+        newQuad->result = NULL;
+        quadTable.push_back(newQuad);
     }
 }
 
@@ -345,29 +374,23 @@ void printICG(symbolTable *st, std::vector<node *> &ASTArray,
 std::vector<quad *> &quadTable, std::vector<varCount *> &countTable)
 {
     cout << "\n---------------------" << endl;
-    cout << "\nIntermediate Code Generation: " << endl;
+    cout << "\nIntermediate Code Generation: \n" << endl;
     int temp = 0;
     int * tempUsed = &temp;
     for(int node = 0; node < ASTArray.size(); node++)
     {
         createNodeICG(st, ASTArray[node], tempUsed, quadTable, countTable);
     }
+    cout << "\nEnd of Intermediate Code Generation" << endl;
     cout << "\n---------------------" << endl;
 }
 
 void printCount(std::vector<varCount *> &countTable)
 {
-    // cout << "COUNTS: " << countTable.size() << endl;
-    // for(int i = 0; i < countTable.size(); i++)
-    // {
-    //     cout << countTable[i]->name << endl;
-    //     cout << countTable[i]->value << endl;
-    //     cout << countTable[i]->rhsCount << endl;
-    //     cout << countTable[i]->lhsCount << endl;
-    //     cout << endl;
-    // }
+    cout << "Code Optimisation\n" << endl;
+
     cout << "Performing Dead Code removal" << endl;
-    cout << "Performing constant propogation" << endl;
+    cout << "Performing constant propogation\n" << endl;
     for(int i = 0; i < countTable.size(); i++)
     {
         if(countTable[i]->rhsCount == 0)
@@ -379,4 +402,6 @@ void printCount(std::vector<varCount *> &countTable)
             cout << "Substitute: " << countTable[i]->name << " with its value: " << countTable[i]->value << endl;
         }
     }
+    cout << "\nEnd of Code Optimisation" << endl;
+    cout << "\n---------------------" << endl;
 }

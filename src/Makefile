@@ -8,4 +8,4 @@ lex.yy.c : py3Lex.l py3yacc.y customModels.hpp
 		lex py3Lex.l
 
 clean :
-		rm -f a.out lex.yy.c y.tab.c y.tab.h
+		rm -f a.out lex.yy.c y.tab.c y.tab.h y.output

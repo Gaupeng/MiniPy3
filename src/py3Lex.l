@@ -24,7 +24,7 @@ STRING_LIT \"([^\"\n])*\"|\'([^\'\n])*\'
 "for"                               {return (FOR);}
 "while"                             {return (WHILE);}
 "return"                            {return (RET);}
-"in"                                {return (IN);}
+"in"                                {yylval.type = "binOp"; yylval.value = "in";return (IN);}
 "elif"|"is"|"lambda"|"not"          {return (KEYWORD);}
 "or"|"and"|"try"|"except"           {return (KEYWORD);}
 "range"|"lambda"|"with"|"break"     {return (KEYWORD);}
