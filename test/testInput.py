@@ -1,23 +1,38 @@
+# integer assigns
 a = 10
 b = 20
 c = 30
 d = 5
 
+# string assigns
+s = "some string!"
+t = "some other string!"
 
-e = a + a
+# some operations
+e = a + b * c / d
+f = 5
+g = s
+h = a + b
 
+# check if control
 if a < c:
-    a = c
+    a = s
 
 e = 20
 
-f = 5
-f = d + d + d
-
 if b < a:
-    f = f
+    f = d
 
-e = c + c * a
-f =  d - a
-f = 0
-e = f
+f = 1
+e = 0
+
+# while loop
+while e < 20:
+    e = e + f
+
+# for loop
+for char in s:
+    s = s
+
+# seems like everything is okay?
+z = "the end!"

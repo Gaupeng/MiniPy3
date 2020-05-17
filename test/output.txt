@@ -10,771 +10,143 @@ Created AST Node: Symbol: =
 Created AST Node: numConst: 5
 Created AST Node: ID: d
 Created AST Node: Symbol: =
+Created AST Node: strConst: "some string!"
+Created AST Node: ID: s
+Created AST Node: Symbol: =
+Created AST Node: strConst: "some other string!"
+Created AST Node: ID: t
+Created AST Node: Symbol: =
 Created AST Node: ID: a
-Created AST Node: ID: a
+Created AST Node: ID: b
+Created AST Node: ID: c
+Created AST Node: ID: d
+Created AST Node: Symbol: /
+Created AST Node: Symbol: *
 Created AST Node: Symbol: +
 Created AST Node: ID: e
+Created AST Node: Symbol: =
+Created AST Node: numConst: 5
+Created AST Node: ID: f
+Created AST Node: Symbol: =
+Created AST Node: ID: s
+Created AST Node: ID: g
+Created AST Node: Symbol: =
+Created AST Node: ID: a
+Created AST Node: ID: b
+Created AST Node: Symbol: +
+Created AST Node: ID: h
 Created AST Node: Symbol: =
 Created AST Node: ID: a
 Created AST Node: ID: c
 Created AST Node:  : <
-Created AST Node: ID: c
+Created AST Node: ID: s
 Created AST Node: ID: a
 Created AST Node: Symbol: =
 Created AST Node: if: if
 Created AST Node: numConst: 20
 Created AST Node: ID: e
 Created AST Node: Symbol: =
-Created AST Node: numConst: 5
-Created AST Node: ID: f
-Created AST Node: Symbol: =
-Created AST Node: ID: d
-Created AST Node: ID: d
-Created AST Node: ID: d
-Created AST Node: Symbol: +
-Created AST Node: Symbol: +
-Created AST Node: ID: f
-Created AST Node: Symbol: =
 Created AST Node: ID: b
 Created AST Node: ID: a
 Created AST Node:  : <
-Created AST Node: ID: f
+Created AST Node: ID: d
 Created AST Node: ID: f
 Created AST Node: Symbol: =
 Created AST Node: if: if
-Created AST Node: ID: c
-Created AST Node: ID: c
-Created AST Node: ID: a
-Created AST Node: Symbol: *
+Created AST Node: numConst: 1
+Created AST Node: ID: f
+Created AST Node: Symbol: =
+Created AST Node: numConst: 0
+Created AST Node: ID: e
+Created AST Node: Symbol: =
+Created AST Node: ID: e
+Created AST Node: numConst: 20
+Created AST Node:  : <
+Created AST Node: ID: e
+Created AST Node: ID: f
 Created AST Node: Symbol: +
 Created AST Node: ID: e
 Created AST Node: Symbol: =
-Invalid Program.
-21::syntax error, unexpected SPACE, expecting STRING_LIT or NUMBER or ID
-Invalid Program.
-21::syntax error, unexpected MINUS, expecting EQ
-Invalid Program.
-21::syntax error, unexpected SPACE
-Created AST Node: ID: a
-Created AST Node: numConst: 0
-Created AST Node: ID: f
+Created AST Node: while: while
+Created AST Node: ID: char
+Created AST Node: ID: s
+Created AST Node:  : in
+Created AST Node: ID: s
+Created AST Node: ID: s
 Created AST Node: Symbol: =
-Created AST Node: ID: f
-Created AST Node: ID: e
+Created AST Node: for: for
+Created AST Node: strConst: "the end!"
+Created AST Node: ID: z
 Created AST Node: Symbol: =
 
 SYMBOL TABLE: 
 Name   Type   Scope   Line No. Value
-[a		var		0		21		c]
-[b		var		0		17		20]
-[c		var		0		20		30]
-[d		var		0		21		5]
-[e		var		0		23		f]
-[f		var		0		23		0]
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182b0d0
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 10
-Children: 0
-Data: 10
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: b
-Children: 0
-Data: 0x56124182b3d0
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 20
-Children: 0
-Data: 20
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182b7f0
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 30
-Children: 0
-Data: 30
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: d
-Children: 0
-Data: 0x56124182ba70
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 5
-Children: 0
-Data: 5
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: e
-Children: 0
-Data: 0x56124182c1d0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: +
-Children: 2
-Data: +
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182bf80
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182c060
-
----------------------
-
----------------------
-
-Node Data
-Type:  
-Value: <
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182c390
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182c470
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182c6c0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182c5e0
-
----------------------
-
----------------------
-
-Node Data
-Type: if
-Value: if
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type:  
-Value: <
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182c390
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182c470
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182c6c0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182c5e0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: e
-Children: 0
-Data: 0x56124182c930
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 20
-Children: 0
-Data: 20
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182cc10
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 5
-Children: 0
-Data: 5
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182d140
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: +
-Children: 2
-Data: +
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: d
-Children: 0
-Data: 0x56124182cd80
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: +
-Children: 2
-Data: +
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: d
-Children: 0
-Data: 0x56124182ce60
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: d
-Children: 0
-Data: 0x56124182cf40
-
----------------------
-
----------------------
-
-Node Data
-Type:  
-Value: <
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type: ID
-Value: b
-Children: 0
-Data: 0x56124182d2b0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182d390
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182d5e0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182d500
-
----------------------
-
----------------------
-
-Node Data
-Type: if
-Value: if
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type:  
-Value: <
-Children: 2
-Data: 
----------------------
-
-Node Data
-Type: ID
-Value: b
-Children: 0
-Data: 0x56124182d2b0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182d390
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182d5e0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182d500
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: e
-Children: 0
-Data: 0x56124182dba0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: +
-Children: 2
-Data: +
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182d7e0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: *
-Children: 2
-Data: *
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: c
-Children: 0
-Data: 0x56124182d8c0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: a
-Children: 0
-Data: 0x56124182d9a0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182de60
-
----------------------
-
----------------------
-
-Node Data
-Type: numConst
-Value: 0
-Children: 0
-Data: 0
-
----------------------
-
----------------------
-
-Node Data
-Type: Symbol
-Value: =
-Children: 2
-Data: =
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: e
-Children: 0
-Data: 0x56124182e0b0
-
----------------------
-
----------------------
-
-Node Data
-Type: ID
-Value: f
-Children: 0
-Data: 0x56124182dfd0
-
----------------------
+[a		var		0		27		s]
+[b		var		0		27		20]
+[c		var		0		22		30]
+[d		var		1		28		5]
+[s		var		1		41		s]
+[t		var		0		11		"some other string!"]
+[e		var		1		36		+]
+[f		var		1		36		1]
+[g		var		0		17		s]
+[h		var		0		18		+]
+[char		var		0		40		]
+[z		var		0		45		"the end!"]
 
 ---------------------
 
 Intermediate Code Generation: 
+
 a = 10
 b = 20
 c = 30
 d = 5
-e = a + a
-a = c
-if a < c GOTO 0x56124182c730
+s = "some string!"
+t = "some other string!"
+T0 = c / d
+T1 = b * T0
+T2 = a + T1
+e = T2
+f = 5
+g = s
+h = a + b
+a = s
+if a < c GOTO 0x55cb143d2080
 ifFalse a < c GOTO Next Node
 e = 20
-f = 5
-T0 = d + d
-T1 = d + T0
-f = T1
-f = f
-if b < a GOTO 0x56124182d650
+f = d
+if b < a GOTO 0x55cb143d2790
 ifFalse b < a GOTO Next Node
-T2 = c * a
-T3 = c + T2
-e = T3
-f = 0
-e = f
+f = 1
+e = 0
+e = e + f
+if e < 20 GOTO 0x55cb143d3290
+ifFalse e < 20 GOTO Next Node
+s = s
+if char in s GOTO 0x55cb143d3830
+ifFalse char in s GOTO Next Node
+z = "the end!"
+
+End of Intermediate Code Generation
 
 ---------------------
+Code Optimisation
+
 Performing Dead Code removal
 Performing constant propogation
-Substitute: a with its value: 10
-Variable: b, is never used, we can remove it.
+
+Substitute: a with its value: s
+Substitute: b with its value: 20
 Substitute: c with its value: 30
 Substitute: d with its value: 5
+Substitute: s with its value: s
+Variable: t, is never used, we can remove it.
+Substitute: f with its value: 1
+Variable: g, is never used, we can remove it.
 Variable: e, is never used, we can remove it.
-Variable: f, is never used, we can remove it.
+Variable: z, is never used, we can remove it.
+
+End of Code Optimisation
+
+---------------------
