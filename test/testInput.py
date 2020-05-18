@@ -28,12 +28,13 @@ e = 0
 while e < g:
     e = e + f
 
-y = 10
 x = 15
+y = a * b + c / d - e + f
+
 
 # for loop
 for char in s:
     a = a
 
 # seems like everything is okay?
-z = 0
+z = "The-End!"

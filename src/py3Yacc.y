@@ -27,7 +27,7 @@ S :     stmt S {$$  = $1;}
         | NL S {$$ = $2;}
         | ENDF  {
                 printSymTable(&st);
-                        /* printArray(ASTArray); */
+                printArray(ASTArray);
                 printICG(&st, ASTArray, quadTable, countTable);
                 printCount(countTable);
                 exit(1);}
@@ -102,7 +102,7 @@ loops :  FOR SPACE conditions COLON body        {
                                                 newVec.push_back($3.nodePtr);
                                                 newVec.push_back($5.nodePtr);
                                                 $$.nodePtr = createNode(&st, "for", "for", newVec, 2);
-                                                ASTArray.push_back($$.nodePtr);
+                                                        ASTArray.push_back($$.nodePtr);
                                                 }
         | FOR LBRACKET conditions RBRACKET COLON body   {
                                                         newVec.clear();
@@ -151,7 +151,6 @@ conditions :    cond_lit SPACE relop SPACE cond_lit {
                                         newVec.push_back($1.nodePtr);
                                         newVec.push_back($5.nodePtr);
                                         $$.nodePtr = createNode(&st, " ", $3.value, newVec, 2);
-                                        ASTArray.push_back($$.nodePtr);
                                         }
                 | cond_lit {$$ = $1;}
                 ;

@@ -68,8 +68,7 @@ token * getRecord(symbolTable *st, string key);
 /* AST Functions */ 
 
 node * createNode(symbolTable *st, std::string type, std::string value, std::vector<node *> &vec, int len);
-void printNode(node * currNode);
-void printChildren(node * currNode);
+void printNode(std::string& prefix, node * currNode, int isLeft);
 void printArray(std::vector<node *> &ASTArray);
 
 /* ICG Functions */

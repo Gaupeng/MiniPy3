@@ -79,7 +79,7 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
     node * newNode = new node;
     newNode->type.assign(type);
     newNode->value.assign(value);
-    cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
+    // cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
     if(type == "ID")
     {
         token * tempRec = getRecord(st, value);
@@ -101,55 +101,27 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
 }
 
 
-void printNode(node * currNode)
+void printNode(const std::string& prefix, node * currNode, int isLeft)
 {
-    cout << "\nNode Data" << endl;
-    cout << "Type: "<< currNode->type << endl;
-    cout << "Value: " << currNode->value << endl;
-    cout << "Children: " << currNode->numNodes << endl;
-    cout << "Data: ";
-    if(currNode->type == "numConst")
-    {
-        cout << stoi(currNode->value) << endl;
-        cout << "\n---------------------" << endl;
-    }
-    else if(currNode->type == "strConst")
-    {
-        cout << currNode->value << endl;
-        cout << "\n---------------------" << endl;
-    }
-    else if(currNode->type == "ID")
-    {
-        cout << currNode->record  << endl;
-        cout << "\n---------------------" << endl;
-    }
-    else if(currNode->type == "Symbol")
-    {
-        cout << currNode->value << endl;
-        cout << "\n---------------------" << endl;
-    }
-    
-}
-
-void printChildren(node * currNode)
-{
-    cout << "\n---------------------" << endl;
     if(currNode != NULL)
     {
-        printNode(currNode);
-        for(int i = 0; i < currNode->numNodes; i++)
+        cout << prefix;
+        cout << (isLeft ? "├──" : "└──" );
+        cout << currNode->value << endl;
+        if(currNode->numNodes == 2)
         {
-            printChildren(currNode->ptrVec[i]);
+            printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[0], 1);
+            printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[1], 0);
         }
     }
 }
 
-
 void printArray(std::vector<node *> &ASTArray)
 {
+    cout << "\n---------------------" << endl;
     for(int i = 0; i < ASTArray.size(); i++)
     {
-        printChildren(ASTArray[i]);
+        printNode("", ASTArray[i], 0);
     }
 }
 
@@ -260,10 +232,6 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
     {
         if(isAssign(currNode))
         {
-            // if(ifFlag)
-            // {
-            //     cout << "L" + to_string(*bCount) + ": ";
-            // }
             cout << currNode->ptrVec[0]->value << " = " << currNode->ptrVec[1]->value << endl;
             addToVarTable(currNode, countTable);
             return NULL;
@@ -370,10 +338,6 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
 
 void printQuad(quad * resQuad, int* bCount, int ifFlag)
 {
-        // if(ifFlag)
-        // {
-        //     cout << "L" + to_string(*bCount) + ": ";
-        // }
         if(resQuad->arg2 == NULL)
         {
             cout << resQuad->result->name << " " << resQuad->op << " " << resQuad->arg1->name << endl;

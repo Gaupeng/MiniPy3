@@ -1,5 +1,7 @@
 # open output file
 # extract ICG from file
+import sys
+sys.stdout = open('../test/output.txt', 'a')
 
 outputList = []
 registerCount = 0
@@ -76,6 +78,7 @@ def assignOp(ele):
 
 
 def assembler(ICG):
+    print("Assembly Code:\n")
     global registerCount, goto
     for ind in range(len(ICG)):
         ele = ICG[ind]
@@ -122,6 +125,5 @@ def assembler(ICG):
                 registerCount += 1
                 print("CMP", reg2 + ",", "0x00")
                 print("BEQ", bnum)
-
 
 assembler(ICG)
