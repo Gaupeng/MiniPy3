@@ -10,10 +10,10 @@ Created AST Node: Symbol: =
 Created AST Node: numConst: 5
 Created AST Node: ID: d
 Created AST Node: Symbol: =
-Created AST Node: strConst: "some string!"
+Created AST Node: strConst: "someString!"
 Created AST Node: ID: s
 Created AST Node: Symbol: =
-Created AST Node: strConst: "some other string!"
+Created AST Node: strConst: "someOtherString!"
 Created AST Node: ID: t
 Created AST Node: Symbol: =
 Created AST Node: ID: a
@@ -25,16 +25,10 @@ Created AST Node: Symbol: *
 Created AST Node: Symbol: +
 Created AST Node: ID: e
 Created AST Node: Symbol: =
-Created AST Node: numConst: 5
-Created AST Node: ID: f
-Created AST Node: Symbol: =
-Created AST Node: ID: s
-Created AST Node: ID: g
-Created AST Node: Symbol: =
 Created AST Node: ID: a
 Created AST Node: ID: b
 Created AST Node: Symbol: +
-Created AST Node: ID: h
+Created AST Node: ID: f
 Created AST Node: Symbol: =
 Created AST Node: ID: a
 Created AST Node: ID: c
@@ -44,7 +38,7 @@ Created AST Node: ID: a
 Created AST Node: Symbol: =
 Created AST Node: if: if
 Created AST Node: numConst: 20
-Created AST Node: ID: e
+Created AST Node: ID: g
 Created AST Node: Symbol: =
 Created AST Node: ID: b
 Created AST Node: ID: a
@@ -60,7 +54,7 @@ Created AST Node: numConst: 0
 Created AST Node: ID: e
 Created AST Node: Symbol: =
 Created AST Node: ID: e
-Created AST Node: numConst: 20
+Created AST Node: ID: g
 Created AST Node:  : <
 Created AST Node: ID: e
 Created AST Node: ID: f
@@ -68,31 +62,38 @@ Created AST Node: Symbol: +
 Created AST Node: ID: e
 Created AST Node: Symbol: =
 Created AST Node: while: while
+Created AST Node: numConst: 10
+Created AST Node: ID: y
+Created AST Node: Symbol: =
+Created AST Node: numConst: 15
+Created AST Node: ID: x
+Created AST Node: Symbol: =
 Created AST Node: ID: char
 Created AST Node: ID: s
 Created AST Node:  : in
-Created AST Node: ID: s
-Created AST Node: ID: s
+Created AST Node: ID: a
+Created AST Node: ID: a
 Created AST Node: Symbol: =
 Created AST Node: for: for
-Created AST Node: strConst: "the end!"
+Created AST Node: numConst: 0
 Created AST Node: ID: z
 Created AST Node: Symbol: =
 
 SYMBOL TABLE: 
 Name   Type   Scope   Line No. Value
-[a		var		0		27		s]
-[b		var		0		27		20]
-[c		var		0		22		30]
-[d		var		1		28		5]
-[s		var		1		41		s]
-[t		var		0		11		"some other string!"]
-[e		var		1		36		+]
-[f		var		1		36		1]
-[g		var		0		17		s]
-[h		var		0		18		+]
-[char		var		0		40		]
-[z		var		0		45		"the end!"]
+[a		var		1		42		a]
+[b		var		0		25		20]
+[c		var		0		20		30]
+[d		var		1		26		5]
+[s		var		0		41		"someString!"]
+[t		var		0		11		"someOtherString!"]
+[e		var		1		34		+]
+[f		var		1		34		1]
+[g		var		0		33		20]
+[y		var		0		36		10]
+[x		var		0		37		15]
+[char		var		0		41		]
+[z		var		0		46		0]
 
 ---------------------
 
@@ -102,31 +103,29 @@ a = 10
 b = 20
 c = 30
 d = 5
-s = "some string!"
-t = "some other string!"
+s = "someString!"
+t = "someOtherString!"
 T0 = c / d
 T1 = b * T0
 T2 = a + T1
 e = T2
-f = 5
-g = s
-h = a + b
+f = a + b
+ifFalse a < c GOTO L0
 a = s
-if a < c GOTO 0x55cb143d2080
-ifFalse a < c GOTO Next Node
-e = 20
+L0: g = 20
+ifFalse b < a GOTO L1
 f = d
-if b < a GOTO 0x55cb143d2790
-ifFalse b < a GOTO Next Node
-f = 1
+L1: f = 1
 e = 0
+L2: ifFalse e < g GOTO L3
 e = e + f
-if e < 20 GOTO 0x55cb143d3290
-ifFalse e < 20 GOTO Next Node
-s = s
-if char in s GOTO 0x55cb143d3830
-ifFalse char in s GOTO Next Node
-z = "the end!"
+goto L2
+L3: y = 10
+x = 15
+L4: ifFalse char in s GOTO L5
+a = a
+goto L4
+L5: z = 0
 
 End of Intermediate Code Generation
 
@@ -136,15 +135,17 @@ Code Optimisation
 Performing Dead Code removal
 Performing constant propogation
 
-Substitute: a with its value: s
+Substitute: a with its value: a
 Substitute: b with its value: 20
 Substitute: c with its value: 30
 Substitute: d with its value: 5
-Substitute: s with its value: s
+Substitute: s with its value: "someString!"
 Variable: t, is never used, we can remove it.
-Substitute: f with its value: 1
 Variable: g, is never used, we can remove it.
+Substitute: f with its value: 1
 Variable: e, is never used, we can remove it.
+Variable: y, is never used, we can remove it.
+Variable: x, is never used, we can remove it.
 Variable: z, is never used, we can remove it.
 
 End of Code Optimisation

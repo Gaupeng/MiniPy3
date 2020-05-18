@@ -79,9 +79,9 @@ int isBinOp(node * thisNode);
 int isNum(node * thisNode);
 int isAssign(node * thisNode);
 void addToVarTable(node * currNode, std::vector<varCount *> &countTable);
-node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
- std::vector<quad *> &quadTable, std::vector<varCount *> &countTable);
+node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
+ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable, int * bCount, int flag);
 void printICG(symbolTable *st, std::vector<node *> &ASTArray,
  std::vector<quad *> &quadTable, std::vector<varCount *> &countTable);
-void printQuad(quad * resQuad);
+void printQuad(quad * resQuad, int * bCount, int ifFlag);
 void printCount(std::vector<varCount *> &countTable);

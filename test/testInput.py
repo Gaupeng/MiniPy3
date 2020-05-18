@@ -5,20 +5,18 @@ c = 30
 d = 5
 
 # string assigns
-s = "some string!"
-t = "some other string!"
+s = "someString!"
+t = "someOtherString!"
 
 # some operations
 e = a + b * c / d
-f = 5
-g = s
-h = a + b
+f = a + b
 
 # check if control
 if a < c:
     a = s
 
-e = 20
+g = 20
 
 if b < a:
     f = d
@@ -27,12 +25,15 @@ f = 1
 e = 0
 
 # while loop
-while e < 20:
+while e < g:
     e = e + f
+
+y = 10
+x = 15
 
 # for loop
 for char in s:
-    s = s
+    a = a
 
 # seems like everything is okay?
-z = "the end!"
+z = 0

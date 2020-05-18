@@ -1,0 +1,7 @@
+.vscode/settings.json
+src/y.tab.h
+src/y.tab.c
+src/y.output
+test/temp
+src/lex.yy.c
+src/a.out

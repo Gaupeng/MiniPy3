@@ -1,4 +1,5 @@
 #include "customModels.hpp"
+#include <bits/stdc++.h>
 
 void insertToken(symbolTable *st, string name, string type, int scope, int lineNo)
 {
@@ -29,12 +30,12 @@ void printSymTable(symbolTable *st)
 
     Taking an example:
         d = a + b + 10
-
+        F = G
     If the AST created a node for the RHS it would look like the following:
 
              +   ---------------> d looks at this
             / \
-            a  +
+           a   +
               / \
              b  10
 
@@ -243,8 +244,8 @@ void addToVarTable(node * currNode, std::vector<varCount *> &countTable)
     
 }
 
-node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
- std::vector<quad *> &quadTable, std::vector<varCount *> &countTable)
+node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
+ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable, int * bCount, int ifFlag)
 {
         /* 
         Quads logic:
@@ -259,6 +260,10 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
     {
         if(isAssign(currNode))
         {
+            // if(ifFlag)
+            // {
+            //     cout << "L" + to_string(*bCount) + ": ";
+            // }
             cout << currNode->ptrVec[0]->value << " = " << currNode->ptrVec[1]->value << endl;
             addToVarTable(currNode, countTable);
             return NULL;
@@ -275,8 +280,8 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
                 rightChild = parent->ptrVec[1];
                 if(isBinOp(rightChild))
                 {
-                    parent->ptrVec[1] = createNodeICG(st, rightChild, tempUsed, quadTable, countTable);
-                    parent = createNodeICG(st, parent, tempUsed, quadTable, countTable);
+                    parent->ptrVec[1] = createNodeICG(st, rightChild, tCount, quadTable, countTable, bCount, ifFlag);
+                    parent = createNodeICG(st, parent, tCount, quadTable, countTable, bCount, ifFlag);
                     cout << currNode->ptrVec[0]->value << " = " << parent->value << endl;
                     return parent;
                 }
@@ -286,7 +291,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
                 newQuad->result = new token;
                 newQuad->result = currNode->ptrVec[0]->record;
                 quadTable.push_back(newQuad);
-                printQuad(newQuad); 
+                printQuad(newQuad, bCount, ifFlag); 
                 return parent;
             }
             newQuad->arg1 = rightChild->record;
@@ -295,7 +300,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
             newQuad->result = currNode->ptrVec[0]->record;
             newQuad->op = currNode->value;
             quadTable.push_back(newQuad);
-            printQuad(newQuad); 
+            printQuad(newQuad, bCount, ifFlag); 
             return parent;
         }
     }
@@ -305,7 +310,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
         addToVarTable(currNode, countTable);
         if(isBinOp(currNode->ptrVec[1]))
         {
-            currNode->ptrVec[1] = createNodeICG(st, currNode->ptrVec[1], tempUsed, quadTable, countTable);
+            currNode->ptrVec[1] = createNodeICG(st, currNode->ptrVec[1], tCount, quadTable, countTable, bCount, ifFlag);
         }
         quad * newQuad = new quad;
         newQuad->op = currNode->value;
@@ -313,7 +318,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
         string arg1Name = currNode->ptrVec[0]->record->name;
         string arg2Name = currNode->ptrVec[1]->record->name;
 
-        std::string newTemp = "T" + to_string((*tempUsed)++);
+        std::string newTemp = "T" + to_string((*tCount)++);
         insertToken(st, newTemp, "var", 0, -1);
 
         // getting arg1 and arg2 before insert token
@@ -330,7 +335,7 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
         newQuad->result = tempRec;
 
         quadTable.push_back(newQuad);
-        printQuad(newQuad);
+        printQuad(newQuad, bCount, ifFlag);
 
         node * newNode = new node;
         newNode->ptrVec.push_back(currNode);
@@ -342,11 +347,18 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
 
     else if(isKey(currNode))
     {
-        cout << "if " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
-            << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << currNode->ptrVec[1] << endl;
-        cout << "ifFalse " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
-            << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << "Next Node" << endl;
-
+        if(currNode->value == "if")
+        {
+            cout << "ifFalse " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
+                << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << "L" << to_string((*bCount)) << endl;
+            
+        }
+        if(currNode->value == "for" || currNode->value == "while")
+        {
+            cout << "L" + to_string(*(bCount)) << ": ";
+            cout << "ifFalse " << currNode->ptrVec[0]->ptrVec[0]->value << " " << currNode->ptrVec[0]->value
+                << " " << currNode->ptrVec[0]->ptrVec[1]->value << " GOTO " << "L" << to_string((*bCount) + 1) << endl;
+        }
         quad * newQuad = new quad;
         newQuad->op = currNode->ptrVec[0]->value;
         newQuad->arg1 = currNode->ptrVec[0]->ptrVec[0]->record;
@@ -356,8 +368,12 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tempUsed,
     }
 }
 
-void printQuad(quad * resQuad)
+void printQuad(quad * resQuad, int* bCount, int ifFlag)
 {
+        // if(ifFlag)
+        // {
+        //     cout << "L" + to_string(*bCount) + ": ";
+        // }
         if(resQuad->arg2 == NULL)
         {
             cout << resQuad->result->name << " " << resQuad->op << " " << resQuad->arg1->name << endl;
@@ -366,8 +382,7 @@ void printQuad(quad * resQuad)
         {
             cout << resQuad->result->name << " = " << resQuad->arg1->name << " " << resQuad->op << " " << resQuad->arg2->name << endl;
         }
-        return;
-        
+        return;  
 }
 
 void printICG(symbolTable *st, std::vector<node *> &ASTArray,
@@ -375,11 +390,48 @@ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable)
 {
     cout << "\n---------------------" << endl;
     cout << "\nIntermediate Code Generation: \n" << endl;
-    int temp = 0;
-    int * tempUsed = &temp;
-    for(int node = 0; node < ASTArray.size(); node++)
+    int teeCount = 0;
+    int beeCount = 0;
+    int * tCount = &teeCount;
+    int * bCount = &beeCount;
+    int ifFlag = 0;
+    int nodeCount = 0;
+
+    while(nodeCount < ASTArray.size())
     {
-        createNodeICG(st, ASTArray[node], tempUsed, quadTable, countTable);
+        while (ASTArray[nodeCount] == NULL)
+        {
+            nodeCount++;
+        }
+        if(nodeCount < ASTArray.size() - 1)
+        {
+            node * nextNode = new node;
+            nextNode = ASTArray[nodeCount + 1];
+            if(nextNode->value == "if")
+            {
+                ifFlag = 1;
+            }
+            if(nextNode->value == "for" || nextNode->value == "while")
+            {
+                ifFlag = 2;
+            }
+            if(ifFlag > 0)
+            {
+                createNodeICG(st, ASTArray[nodeCount + 1], tCount, quadTable, countTable, bCount, ifFlag);
+                ASTArray[nodeCount + 1] = NULL;
+            }
+        }
+        createNodeICG(st, ASTArray[nodeCount], tCount, quadTable, countTable, bCount, ifFlag);
+        if(ifFlag == 2)
+        {
+            cout << "goto "<< "L" + to_string((*bCount)++) << endl;
+        }
+        if(ifFlag > 0)
+        {
+            cout << "L" + to_string((*bCount)++) << ": ";
+        }
+        ifFlag = 0;
+        nodeCount++;
     }
     cout << "\nEnd of Intermediate Code Generation" << endl;
     cout << "\n---------------------" << endl;
