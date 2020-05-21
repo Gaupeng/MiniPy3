@@ -186,116 +186,116 @@ Assembly Code:
 LD R0, #10
 ST a, R0
 
-LD R1, #20
-ST b, R1
+LD R0, #20
+ST b, R0
 
-LD R2, #30
-ST c, R2
+LD R0, #30
+ST c, R0
 
-LD R3, #5
-ST d, R3
+LD R0, #5
+ST d, R0
 
 str: .asciiz "someString!"
-LD R4, str
-ST s, R4
+LD R0, str
+ST s, R0
 
 str: .asciiz "someOtherString!"
-LD R4, str
-ST t, R4
+LD R0, str
+ST t, R0
 
-LD R4, c
-DIV R4, R4, d
-ST T0, R4
+LD R0, c
+DIV R0, R0, d
+ST T0, R0
 
-LD R5, b
-MUL R5, R5, T0
-ST T1, R5
+LD R0, b
+MUL R0, R0, T0
+ST T1, R0
 
-LD R6, a
-ADD R6, R6, T1
-ST T2, R6
+LD R0, a
+ADD R0, R0, T1
+ST T2, R0
 
-LD R7, T2
-ST e, R7
+LD R0, T2
+ST e, R0
 
-LD R8, a
-ADD R8, R8, b
-ST f, R8
+LD R0, a
+ADD R0, R0, b
+ST f, R0
 
-LD  R9, a
-LD  R10, c
-CMP  R9, R10
+LD  R0, a
+LD  R1, c
+CMP  R0, R1
 BGE L0
-LD R11, s
-ST a, R11
+LD R2, s
+ST a, R2
 
 L0:
-LD R12, #20
-ST g, R12
+LD R0, #20
+ST g, R0
 
-LD  R13, b
-LD  R14, a
-CMP  R13, R14
+LD  R0, b
+LD  R1, a
+CMP  R0, R1
 BGE L1
-LD R15, d
-ST f, R15
+LD R2, d
+ST f, R2
 
 L1:
-LD R16, #1
-ST f, R16
+LD R0, #1
+ST f, R0
 
-LD R17, #0
-ST e, R17
+LD R0, #0
+ST e, R0
 
 L2:
-LD  R18, e
-LD  R19, g
-CMP  R18, R19
+LD  R0, e
+LD  R1, g
+CMP  R0, R1
 BGE L3
-LD R20, e
-ADD R20, R20, f
-ST e, R20
+LD R2, e
+ADD R2, R2, f
+ST e, R2
 GOTO L2
 
 L3:
-LD R21, #15
-ST x, R21
+LD R0, #15
+ST x, R0
 
-LD R22, e
-ADD R22, R22, f
-ST T3, R22
+LD R0, e
+ADD R0, R0, f
+ST T3, R0
 
-LD R23, d
-SUB R23, R23, T3
-ST T4, R23
+LD R0, d
+SUB R0, R0, T3
+ST T4, R0
 
-LD R24, c
-DIV R24, R24, T4
-ST T5, R24
+LD R0, c
+DIV R0, R0, T4
+ST T5, R0
 
-LD R25, b
-ADD R25, R25, T5
-ST T6, R25
+LD R0, b
+ADD R0, R0, T5
+ST T6, R0
 
-LD R26, a
-MUL R26, R26, T6
-ST T7, R26
+LD R0, a
+MUL R0, R0, T6
+ST T7, R0
 
-LD R27, T7
-ST y, R27
+LD R0, T7
+ST y, R0
 
-LD R28, #0
+LD R0, #0
 L4:
-LD  R29, s(R28)
-ADD R28, R28, #1
-CMP R29, 0x00
+LD  R1, s(R0)
+ADD R0, R0, #1
+CMP R1, 0x00
 BEQ L5
-LD R30, a
-ST a, R30
+LD R2, a
+ST a, R2
 GOTO L4
 
 L5:
 str: .asciiz "The-End!"
-LD R31, str
-ST z, R31
+LD R0, str
+ST z, R0
 

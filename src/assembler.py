@@ -74,6 +74,7 @@ def assignOp(ele):
     if goto:
         print("GOTO", goto)
         goto = ""
+    registerCount = 0
     print()
 
 
