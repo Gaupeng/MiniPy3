@@ -15,6 +15,7 @@ f = a + b
 # check if control
 if a < c:
     a = s
+    b = s
 
 g = 20
 
@@ -27,6 +28,8 @@ e = 0
 # while loop
 while e < g:
     e = e + f
+    a = a + e
+    b = b + a
 
 x = 15
 y = a * b + c / d - e + f

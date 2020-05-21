@@ -1,19 +1,19 @@
 
 SYMBOL TABLE: 
 Name   Type   Scope   Line No. Value
-[a		var		1		43		a]
-[b		var		0		37		20]
-[c		var		0		37		30]
-[d		var		0		37		5]
-[s		var		0		42		"someString!"]
+[a		var		1		46		a]
+[b		var		0		40		+]
+[c		var		0		40		30]
+[d		var		0		40		5]
+[s		var		0		45		"someString!"]
 [t		var		0		11		"someOtherString!"]
-[e		var		0		37		+]
-[f		var		0		37		1]
-[g		var		0		33		20]
-[x		var		0		36		15]
-[y		var		0		37		*]
-[char		var		0		42		]
-[z		var		0		47		"The-End!"]
+[e		var		0		40		+]
+[f		var		0		40		1]
+[g		var		0		34		20]
+[x		var		0		39		15]
+[y		var		0		40		*]
+[char		var		0		45		]
+[z		var		0		50		"The-End!"]
 
 ---------------------
 └──=
@@ -48,22 +48,19 @@ Name   Type   Scope   Line No. Value
     └──+
         ├──a
         └──b
-└──=
-    ├──a
-    └──s
 └──if
     ├──<
     │   ├──a
     │   └──c
+    └──=
+        ├──b
+        └──s
     └──=
         ├──a
         └──s
 └──=
     ├──g
     └──20
-└──=
-    ├──f
-    └──d
 └──if
     ├──<
     │   ├──b
@@ -77,15 +74,20 @@ Name   Type   Scope   Line No. Value
 └──=
     ├──e
     └──0
-└──=
-    ├──e
-    └──+
-        ├──e
-        └──f
 └──while
     ├──<
     │   ├──e
     │   └──g
+    └──=
+        ├──b
+        └──+
+            ├──b
+            └──a
+    └──=
+        ├──a
+        └──+
+            ├──a
+            └──e
     └──=
         ├──e
         └──+
@@ -107,9 +109,6 @@ Name   Type   Scope   Line No. Value
                     └──+
                         ├──e
                         └──f
-└──=
-    ├──a
-    └──a
 └──for
     ├──in
     │   ├──char
@@ -137,6 +136,7 @@ T2 = a + T1
 e = T2
 f = a + b
 ifFalse a < c GOTO L0
+b = s
 a = s
 L0: g = 20
 ifFalse b < a GOTO L1
@@ -144,6 +144,8 @@ f = d
 L1: f = 1
 e = 0
 L2: ifFalse e < g GOTO L3
+b = b + a
+a = a + e
 e = e + f
 goto L2
 L3: x = 15
@@ -167,7 +169,7 @@ Performing Dead Code removal
 Performing constant propogation
 
 Substitute: a with its value: a
-Substitute: b with its value: 20
+Substitute: b with its value: s
 Substitute: c with its value: 30
 Substitute: d with its value: 5
 Substitute: s with its value: "someString!"
@@ -181,121 +183,3 @@ Variable: z, is never used, we can remove it.
 End of Code Optimisation
 
 ---------------------
-Assembly Code:
-
-LD R0, #10
-ST a, R0
-
-LD R0, #20
-ST b, R0
-
-LD R0, #30
-ST c, R0
-
-LD R0, #5
-ST d, R0
-
-str: .asciiz "someString!"
-LD R0, str
-ST s, R0
-
-str: .asciiz "someOtherString!"
-LD R0, str
-ST t, R0
-
-LD R0, c
-DIV R0, R0, d
-ST T0, R0
-
-LD R0, b
-MUL R0, R0, T0
-ST T1, R0
-
-LD R0, a
-ADD R0, R0, T1
-ST T2, R0
-
-LD R0, T2
-ST e, R0
-
-LD R0, a
-ADD R0, R0, b
-ST f, R0
-
-LD  R0, a
-LD  R1, c
-CMP  R0, R1
-BGE L0
-LD R2, s
-ST a, R2
-
-L0:
-LD R0, #20
-ST g, R0
-
-LD  R0, b
-LD  R1, a
-CMP  R0, R1
-BGE L1
-LD R2, d
-ST f, R2
-
-L1:
-LD R0, #1
-ST f, R0
-
-LD R0, #0
-ST e, R0
-
-L2:
-LD  R0, e
-LD  R1, g
-CMP  R0, R1
-BGE L3
-LD R2, e
-ADD R2, R2, f
-ST e, R2
-GOTO L2
-
-L3:
-LD R0, #15
-ST x, R0
-
-LD R0, e
-ADD R0, R0, f
-ST T3, R0
-
-LD R0, d
-SUB R0, R0, T3
-ST T4, R0
-
-LD R0, c
-DIV R0, R0, T4
-ST T5, R0
-
-LD R0, b
-ADD R0, R0, T5
-ST T6, R0
-
-LD R0, a
-MUL R0, R0, T6
-ST T7, R0
-
-LD R0, T7
-ST y, R0
-
-LD R0, #0
-L4:
-LD  R1, s(R0)
-ADD R0, R0, #1
-CMP R1, 0x00
-BEQ L5
-LD R2, a
-ST a, R2
-GOTO L4
-
-L5:
-str: .asciiz "The-End!"
-LD R0, str
-ST z, R0
-

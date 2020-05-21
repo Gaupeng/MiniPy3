@@ -79,8 +79,8 @@ int isNum(node * thisNode);
 int isAssign(node * thisNode);
 void addToVarTable(node * currNode, std::vector<varCount *> &countTable);
 node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
- std::vector<quad *> &quadTable, std::vector<varCount *> &countTable, int * bCount, int flag);
+ std::vector<quad *> &quadTable, std::vector<varCount *> &countTable, int * bCount);
 void printICG(symbolTable *st, std::vector<node *> &ASTArray,
  std::vector<quad *> &quadTable, std::vector<varCount *> &countTable);
-void printQuad(quad * resQuad, int * bCount, int ifFlag);
+void printQuad(quad * resQuad, int * bCount);
 void printCount(std::vector<varCount *> &countTable);

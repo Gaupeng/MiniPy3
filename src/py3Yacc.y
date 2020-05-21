@@ -6,8 +6,11 @@
     extern symbolTable st;
     extern char * yytext;
     int valid = 1;
+    int childCount = 0;
     std::vector<node *> nullVec;
     std::vector<node *> newVec;
+    std::vector<node *> newVec2;
+
     std::vector<node *> ASTArray;
     std::vector<quad *> quadTable;
     std::vector<varCount *> countTable;
@@ -98,51 +101,57 @@ arith_expr :    cond_lit bin_op arith_expr      {
                 ;
 
 loops :  FOR SPACE conditions COLON body        {
-                                                newVec.clear();
-                                                newVec.push_back($3.nodePtr);
-                                                newVec.push_back($5.nodePtr);
-                                                $$.nodePtr = createNode(&st, "for", "for", newVec, 2);
-                                                        ASTArray.push_back($$.nodePtr);
+                                                newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                childCount++;
+                                                $$.nodePtr = createNode(&st, "for", "for", newVec2, childCount);
+                                                ASTArray.push_back($$.nodePtr);
+                                                childCount = 0;
+                                                newVec2.clear();
                                                 }
         | FOR LBRACKET conditions RBRACKET COLON body   {
-                                                        newVec.clear();
-                                                        newVec.push_back($3.nodePtr);
-                                                        newVec.push_back($6.nodePtr);
-                                                        $$.nodePtr = createNode(&st, "for", "for", newVec, 2);
+                                                        newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                        childCount++;
+                                                        $$.nodePtr = createNode(&st, "for", "for", newVec, childCount);
                                                         ASTArray.push_back($$.nodePtr);
+                                                        childCount = 0;
+                                                        newVec2.clear();
                                                         }
         | WHILE SPACE conditions COLON body     {
-                                                newVec.clear();
-                                                newVec.push_back($3.nodePtr);
-                                                newVec.push_back($5.nodePtr);
-                                                $$.nodePtr = createNode(&st, "while", "while", newVec, 2);
+                                                newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                childCount++;
+                                                $$.nodePtr = createNode(&st, "while", "while", newVec2, childCount);
                                                 ASTArray.push_back($$.nodePtr);
+                                                childCount = 0;
+                                                newVec2.clear();
                                                 }
         | WHILE LBRACKET conditions RBRACKET COLON body {
-                                                        newVec.clear();
-                                                        newVec.push_back($3.nodePtr);
-                                                        newVec.push_back($6.nodePtr);
-                                                        $$.nodePtr = createNode(&st, "while", "while", newVec, 2);
+                                                        newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                        childCount++;
+                                                        $$.nodePtr = createNode(&st, "while", "while", newVec2, childCount);
                                                         ASTArray.push_back($$.nodePtr);
+                                                        childCount = 0;
+                                                        newVec2.clear();
                                                         }
         | IF SPACE conditions COLON body        {
-                                                newVec.clear();
-                                                newVec.push_back($3.nodePtr);
-                                                newVec.push_back($5.nodePtr);;
-                                                $$.nodePtr = createNode(&st, "if", "if", newVec, 2);
+                                                newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                childCount++;
+                                                $$.nodePtr = createNode(&st, "if", "if", newVec2, childCount);
                                                 ASTArray.push_back($$.nodePtr);
+                                                childCount = 0;
+                                                newVec2.clear();
                                                 }
         | IF LBRACKET conditions RBRACKET COLON body    {
-                                                        newVec.clear();
-                                                        newVec.push_back($3.nodePtr);
-                                                        newVec.push_back($6.nodePtr);
-                                                        $$.nodePtr = createNode(&st, "if", "if", newVec, 2);
+                                                        newVec2.insert(newVec2.begin(), $3.nodePtr);
+                                                        childCount++;
+                                                        $$.nodePtr = createNode(&st, "if", "if", newVec2, childCount);
                                                         ASTArray.push_back($$.nodePtr);
+                                                        childCount = 0;
+                                                        newVec2.clear();
                                                         }
         ;
 
-body :  NL TAB stmt repeat_stmt body {$$ = $3;}
-        | NL SPACE stmt repeat_stmt body {$$ = $3;}
+body :  NL TAB stmt repeat_stmt body {newVec2.push_back($3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;;}
+        | NL SPACE stmt repeat_stmt body {newVec2.push_back($3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;}
         | NL {$$ = $1;}
         ;
 
@@ -150,7 +159,7 @@ conditions :    cond_lit SPACE relop SPACE cond_lit {
                                         newVec.clear();
                                         newVec.push_back($1.nodePtr);
                                         newVec.push_back($5.nodePtr);
-                                        $$.nodePtr = createNode(&st, " ", $3.value, newVec, 2);
+                                        $$.nodePtr = createNode(&st, $3.type, $3.value, newVec, 2);
                                         }
                 | cond_lit {$$ = $1;}
                 ;
