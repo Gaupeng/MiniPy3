@@ -115,13 +115,23 @@ void printNode(const std::string& prefix, node * currNode, int isLeft)
         cout << prefix;
         cout << (isLeft ? "├──" : "└──" );
         cout << currNode->value << endl;
-        if(currNode->numNodes > 0)
+        if(currNode->numNodes == 2)
         {
             printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[0], 1);
             for(int i = 1; i < currNode->numNodes; i++)
             {
                 printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[i], 0);
             }
+        }
+        else if(currNode->numNodes > 2)
+        {
+            int i;
+            printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[0], 1);
+            for(i = 1; i < currNode->numNodes - 1; i++)
+            {
+                printNode(prefix + (isLeft ? "│   " : "    |"), currNode->ptrVec[i], 0);
+            }
+            printNode(prefix + (isLeft ? "│   " : "    "), currNode->ptrVec[i++], 0);
         }
     }
 }
