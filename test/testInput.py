@@ -9,7 +9,7 @@ s = "someString!"
 t = "someOtherString!"
 
 # some operations
-e = a + b * c / d
+e = a + b * a / d
 f = a + b
 
 # check if control

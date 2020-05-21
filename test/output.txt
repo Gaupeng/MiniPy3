@@ -41,7 +41,7 @@ Name   Type   Scope   Line No. Value
         └──*
             ├──b
             └──/
-                ├──c
+                ├──a
                 └──d
 └──=
     ├──f
@@ -130,7 +130,7 @@ c = 30
 d = 5
 s = "someString!"
 t = "someOtherString!"
-T0 = c / d
+T0 = a / d
 T1 = b * T0
 T2 = a + T1
 e = T2
@@ -183,3 +183,149 @@ Variable: z, is never used, we can remove it.
 End of Code Optimisation
 
 ---------------------
+Assembly Code:
+
+MOV R0, #10
+
+MOV R1, #20
+
+MOV R2, #30
+
+MOV R3, #5
+
+str: .asciiz "someString!"
+LDR R0, str
+LDR R4, s
+LDR R0,[R0]
+STR R0,[R4]
+
+str: .asciiz "someOtherString!"
+LDR R0, str
+LDR R1, t
+LDR R0,[R0]
+STR R0,[R1]
+
+LDR R2, a
+LDR R5, T0
+LDR R6, [R2]
+DIV R6, R6, d
+STR R6, [R5]
+
+LDR R3, b
+LDR R7, T1
+LDR R8, [R3]
+MUL R8, R8, T0
+STR R8, [R7]
+
+LDR R2, a
+LDR R4, T2
+LDR R6, [R2]
+ADD R6, R6, T1
+STR R6, [R4]
+
+LDR R4, T2
+LDR R0, e
+LDR R0,[R4]
+STR R0,[R0]
+
+LDR R2, a
+LDR R1, f
+LDR R6, [R2]
+ADD R6, R6, b
+STR R6, [R1]
+
+LDR R0, a
+LDR R1, c
+CMP R0, R1
+BGE L0
+LDR R3, s
+LDR R2, a
+LDR R2,[R3]
+STR R2,[R2]
+
+L0:
+MOV R0, #20
+
+LDR R0, b
+LDR R1, a
+CMP R0, R1
+BGE L1
+LDR R1, d
+LDR R4, f
+LDR R2,[R1]
+STR R2,[R4]
+
+L1:
+MOV R2, #1
+
+MOV R0, #0
+
+L2:
+LDR R0, e
+LDR R1, g
+CMP R0, R1
+BGE L3
+LDR R1, e
+LDR R1, e
+LDR R3, [R1]
+ADD R3, R3, f
+STR R3, [R1]
+B L2
+
+L3:
+MOV R0, #15
+
+LDR R1, e
+LDR R2, T3
+LDR R3, [R1]
+ADD R3, R3, f
+STR R3, [R2]
+
+LDR R4, d
+LDR R5, T4
+LDR R6, [R4]
+SUB R6, R6, T3
+STR R6, [R5]
+
+LDR R7, c
+LDR R8, T5
+LDR R9, [R7]
+DIV R9, R9, T4
+STR R9, [R8]
+
+LDR R0, b
+LDR R10, T6
+LDR R11, [R0]
+ADD R11, R11, T5
+STR R11, [R10]
+
+LDR R1, a
+LDR R2, T7
+LDR R3, [R1]
+MUL R3, R3, T6
+STR R3, [R2]
+
+LDR R2, T7
+LDR R4, y
+LDR R0,[R2]
+STR R0,[R4]
+
+LDR R0, #0
+L4:
+LDR R1, s(R0)
+ADD R0, R0, #1
+CMP R1, 0x00
+BEQ L5
+LDR R1, a
+LDR R1, a
+LDR R2,[R1]
+STR R2,[R1]
+B L4
+
+L5:
+str: .asciiz "The-End!"
+LDR R0, str
+LDR R2, z
+LDR R0,[R0]
+STR R0,[R2]
+

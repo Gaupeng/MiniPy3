@@ -7,6 +7,11 @@ outputList = []
 registerCount = 0
 goto = ""
 
+variableList = []
+registerList = []
+variableCount = {}
+
+
 def extractICG(filename):
     extractList = []
     copy = False
@@ -52,43 +57,43 @@ def assignOp(ele):
     if len(spaceSplit) == 3:
         if spaceSplit[2].isdigit():
 
-            reg = "R" + str(registerCount)
-            registerCount += 1
+            reg = getRegister(str(spaceSplit[2]))
+            # registerCount += 1
             print("MOV", reg + ",", "#" + spaceSplit[2])
         else:
             if "\"" in spaceSplit[2]:
                 print("str: .asciiz", spaceSplit[2])
-                reg1 = "R" + str(registerCount)
-                registerCount += 1
+                reg1 = getRegister("str")
+                # registerCount += 1
                 print("LDR", reg1 + ",", "str")
-                reg2 = "R" + str(registerCount)
+                reg2 = getRegister(spaceSplit[0])
                 print("LDR", reg2 + ",",spaceSplit[0])
-                registerCount += 1
-                print("LDR"," R" + str(registerCount) + ",["+ reg1+"]")
-                print("STR"," R" + str(registerCount) + ",["+ reg2+"]")
-                registerCount += 1
+                # registerCount += 1
+                print("LDR","R" + str(registerCount) + ",["+ reg1+"]")
+                print("STR","R" + str(registerCount) + ",["+ reg2+"]")
+                # registerCount += 1
             else:
-                reg1= "R" + str(registerCount)
-                registerCount += 1
+                reg1= getRegister(spaceSplit[2])
+                # registerCount += 1
                 print("LDR", reg1 + ",", spaceSplit[2])
-                reg2 = "R" + str(registerCount)
+                reg2 = getRegister(spaceSplit[0])
                 print("LDR", reg2 + ",",spaceSplit[0])
-                registerCount += 1
-                print("LDR"," R" + str(registerCount) + ",["+ reg1+"]")
-                print("STR"," R" + str(registerCount) + ",["+ reg2+"]")
-                registerCount += 1
+                # registerCount += 1
+                print("LDR","R" + str(registerCount) + ",["+ reg1+"]")
+                print("STR","R" + str(registerCount) + ",["+ reg2+"]")
+                # registerCount += 1
         # print("ST", spaceSplit[0] + ",", reg)
     elif len(spaceSplit) != 3:
         op = findBinOp(spaceSplit[3])
-        reg1 = "R" + str(registerCount)
-        registerCount += 1
+        reg1 = getRegister(spaceSplit[2])
+        # registerCount += 1
         print("LDR", reg1 + ",", spaceSplit[2])
-        reg2 = "R" + str(registerCount) 
-        registerCount += 1
+        reg2 = getRegister(spaceSplit[0])
+        # registerCount += 1
         print("LDR", reg2 + ",", spaceSplit[0])
-        reg3 = "R" + str(registerCount)
+        reg3 = getRegister("["+ reg1+"]")
         registerCount += 1
-        print("LDR",reg3 + ", ["+ reg1+"]")
+        print("LDR",reg3 + ", "+"["+ reg1+"]")
         print(op, reg3 + ",", reg3 + ",", spaceSplit[4])
         print("STR",reg3 + ", ["+ reg2+"]")
     if goto:
@@ -98,10 +103,57 @@ def assignOp(ele):
     print()
 
 
+def getRegister(variable):
+    global variableList,variableCount,registerList
+    flag = 1
+
+    if(variable in variableList):
+        variableCount[variable] = 0
+        return registerList[variableList.index(variable)]
+    else:
+        
+        variableList.append(variable)
+      
+        for i in range(14):
+            register = "R"+str(i);
+            if ("R"+str(i)) not in registerList:
+                
+                break;
+        
+        registerList.append(register)
+        
+        variableCount[variable] = 0
+        
+
+    return register
+
+
+def incVariableCount():
+    removed = 0
+    global variableList,variableCount,registerList
+    keysToBeRemoved = []
+    for key in variableCount:
+        variableCount[key] += 1
+        if(variableCount[key] > 3):
+          
+            removed = 1
+            keysToBeRemoved.append(key)
+    
+    for key in keysToBeRemoved:
+        del variableCount[key]
+        registerToBeRemoved = registerList[variableList.index(key)]
+        variableList.remove(key)
+        registerList.remove(registerToBeRemoved)
+    
+    return removed
+
+
+
 def assembler(ICG):
     print("Assembly Code:\n")
     global registerCount, goto
     for ind in range(len(ICG)):
+        incVariableCount()
         ele = ICG[ind]
         if ':' in ele and '=' in ele:
             spaceSplit = ele.split()
@@ -118,7 +170,7 @@ def assembler(ICG):
             if 'in' in ele:
                 forReg = "R" + str(registerCount)
                 registerCount += 1
-                print("LDR", forReg + ",", "#0")
+                print("LDR", forReg + ",","#0")
             if ":" in ele:
                 spaceSplit = ele.split()
                 print(spaceSplit[0])
@@ -131,17 +183,17 @@ def assembler(ICG):
             bnum = spaceSplit[-1]
             if 'in' not in ele:
                 reg1 = "R" + str(registerCount)
-                print("LDR ", reg1 + ",", left)
+                print("LDR", reg1 + ",", left)
                 registerCount += 1
                 reg2 = "R" + str(registerCount)
-                print("LDR ", reg2 + ",", right)
+                print("LDR", reg2 + ",", right)
                 registerCount += 1
-                print("CMP ", reg1 + ",", reg2)
+                print("CMP", reg1 + ",", reg2)
                 oppOp = findRelOp(op)
                 print("B" + oppOp, bnum)
             else:
                 reg2 = "R" + str(registerCount)
-                print("LDR ", reg2 + ",", right + "(" + forReg + ")")
+                print("LDR", reg2 + ",", right + "(" + forReg + ")")
                 print("ADD", forReg + ",", forReg + ",", "#1")
                 registerCount += 1
                 print("CMP", reg2 + ",", "0x00")
