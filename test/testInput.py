@@ -11,7 +11,7 @@ d = 5
 s = "someString!"
 t = "someOtherString!"
 
-#print statement
+# print statement
 print("abc", s, t)
 
 # some operations

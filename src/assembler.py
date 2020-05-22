@@ -25,6 +25,7 @@ def extractICG(filename):
 
 ICG = extractICG('../test/output2.txt')
 
+
 def findBinOp(op):
     if op == "+":
         return "ADD"
