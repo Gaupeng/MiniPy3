@@ -51,32 +51,43 @@ def findRelOp(op):
         return "GT"
     return "NEQ"
     
-def assignOp(ele):
+def assignOp(ele,ICG,ind):
     global registerCount, goto
     spaceSplit = ele.split()
     if len(spaceSplit) == 3:
         if spaceSplit[2].isdigit():
 
             reg = getRegister(str(spaceSplit[2]))
+            lookahead(ICG,ind,spaceSplit[2])
             # registerCount += 1
             print("MOV", reg + ",", "#" + spaceSplit[2])
         else:
             if "\"" in spaceSplit[2]:
                 print("str: .asciiz", spaceSplit[2])
                 reg1 = getRegister("str")
+                
                 # registerCount += 1
                 print("LDR", reg1 + ",", "str")
                 reg2 = getRegister(spaceSplit[0])
+                
+                lookahead(ICG,ind,"str")
+                lookahead(ICG,ind,spaceSplit[0])
                 print("LDR", reg2 + ",",spaceSplit[0])
+
                 # registerCount += 1
                 print("LDR","R" + str(registerCount) + ",["+ reg1+"]")
                 print("STR","R" + str(registerCount) + ",["+ reg2+"]")
                 # registerCount += 1
             else:
                 reg1= getRegister(spaceSplit[2])
+                
                 # registerCount += 1
                 print("LDR", reg1 + ",", spaceSplit[2])
+
                 reg2 = getRegister(spaceSplit[0])
+                
+                lookahead(ICG,ind,spaceSplit[2])
+                lookahead(ICG,ind,spaceSplit[0])
                 print("LDR", reg2 + ",",spaceSplit[0])
                 # registerCount += 1
                 print("LDR","R" + str(registerCount) + ",["+ reg1+"]")
@@ -86,13 +97,19 @@ def assignOp(ele):
     elif len(spaceSplit) != 3:
         op = findBinOp(spaceSplit[3])
         reg1 = getRegister(spaceSplit[2])
+       
         # registerCount += 1
         print("LDR", reg1 + ",", spaceSplit[2])
         reg2 = getRegister(spaceSplit[0])
+        
         # registerCount += 1
         print("LDR", reg2 + ",", spaceSplit[0])
         reg3 = getRegister("["+ reg1+"]")
+        
         registerCount += 1
+        lookahead(ICG, ind, spaceSplit[2])
+        lookahead(ICG, ind, spaceSplit[0])
+        lookahead(ICG, ind, "["+ reg1+"]")
         print("LDR",reg3 + ", "+"["+ reg1+"]")
         print(op, reg3 + ",", reg3 + ",", spaceSplit[4])
         print("STR",reg3 + ", ["+ reg2+"]")
@@ -124,9 +141,22 @@ def getRegister(variable):
         
         variableCount[variable] = 0
         
-
     return register
 
+def lookahead(ICG,ind,variable):
+    global variableList,registerList,variableCount
+    count = 1
+    for i in range(ind,len(ICG)):
+        if(variable in ICG[i]):
+            break
+        else:
+            count += 1
+        if(count > 9):
+            del variableCount[variable]
+            registerToBeRemoved = registerList[variableList.index(variable)]
+            variableList.remove(variable)
+            registerList.remove(registerToBeRemoved)
+            break
 
 def incVariableCount():
     removed = 0
@@ -148,7 +178,6 @@ def incVariableCount():
     return removed
 
 
-
 def assembler(ICG):
     print("Assembly Code:\n")
     global registerCount, goto
@@ -160,9 +189,9 @@ def assembler(ICG):
             print(spaceSplit[0])
             spaceSplit.pop(0)
             newEle = ' '.join(spaceSplit)
-            assignOp(newEle)
+            assignOp(newEle,ICG,ind)
         elif '=' in ele:
-            assignOp(ele)
+            assignOp(ele,ICG,ind)
         # we've entered either an if, for or while
         elif 'ifFalse' in ele:
             forReg = ""
