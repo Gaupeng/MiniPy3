@@ -1,21 +1,24 @@
 
 SYMBOL TABLE: 
 Name   Type   Scope   Line No. Value
-[a		var		1		45		a]
-[b		var		0		40		+]
-[c		var		0		40		30]
-[d		var		0		40		5]
-[s		var		0		44		"someString!"]
-[t		var		0		11		"someOtherString!"]
-[e		var		0		40		+]
-[f		var		0		40		1]
-[g		var		0		34		20]
-[x		var		0		39		15]
-[y		var		0		40		*]
-[char		var		0		44		]
-[z		var		0		49		"The-End!"]
+[math		var		0		3		]
+[a		var		1		53		a]
+[b		var		0		48		+]
+[c		var		0		48		30]
+[d		var		0		48		5]
+[s		var		0		52		"someString!"]
+[t		var		0		19		"someOtherString!"]
+[e		var		0		48		+]
+[f		var		0		48		1]
+[g		var		0		42		20]
+[x		var		0		47		15]
+[y		var		0		48		*]
+[char		var		0		52		]
+[z		var		0		57		"The-End!"]
 
 ---------------------
+└──import
+    ├──math
 └──=
     ├──a
     └──10
@@ -34,6 +37,10 @@ Name   Type   Scope   Line No. Value
 └──=
     ├──t
     └──"someOtherString!"
+└──print
+    ├──"abc"
+    |└──s
+    └──t
 └──=
     ├──e
     └──+
@@ -161,26 +168,6 @@ goto L4
 L5: z = "The-End!"
 
 End of Intermediate Code Generation
-
----------------------
-Code Optimisation
-
-Performing Dead Code removal
-Performing constant propogation
-
-Substitute: a with its value: a
-Substitute: b with its value: s
-Substitute: c with its value: 30
-Substitute: d with its value: 5
-Substitute: s with its value: "someString!"
-Variable: t, is never used, we can remove it.
-Variable: g, is never used, we can remove it.
-Substitute: f with its value: 1
-Variable: e, is never used, we can remove it.
-Variable: x, is never used, we can remove it.
-Variable: z, is never used, we can remove it.
-
-End of Code Optimisation
 
 ---------------------
 Target Code:
@@ -376,4 +363,5 @@ LDR R13 T5
 STR R6, [R13]
 LDR R13 T6
 STR R4, [R13]
+
 End of Target Code!

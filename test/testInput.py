@@ -1,3 +1,6 @@
+#import statement
+import math
+
 # integer assigns
 a = 10
 b = 20
@@ -7,6 +10,9 @@ d = 5
 # string assigns
 s = "someString!"
 t = "someOtherString!"
+
+#print statement
+print("abc", s, t)
 
 # some operations
 e = a + b * a / d

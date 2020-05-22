@@ -1,0 +1,171 @@
+
+SYMBOL TABLE: 
+Name   Type   Scope   Line No. Value
+[numpy		var		0		3		]
+[a		var		0		21		+]
+[b		var		0		21		20]
+[c		var		0		21		b]
+[s		var		0		18		"string!"]
+[d		var		0		21		10]
+[char	var		1		19		]
+[e		var		0		21		+]
+
+---------------------
+└──import
+    ├──numpy
+└──=
+    ├──a
+    └──10
+└──=
+    ├──b
+    └──20
+└──=
+    ├──c
+    └──5
+└──=
+    ├──s
+    └──"string!"
+└──if
+    ├──<
+    │   ├──a
+    │   └──b
+    |└──=
+    |    ├──a
+    |    └──+
+    |        ├──a
+    |        └──*
+    |            ├──b
+    |            └──c
+    └──=
+        ├──c
+        └──b
+└──=
+    ├──d
+    └──10
+└──for
+    ├──in
+    │   ├──char
+    │   └──s
+    └──print
+└──=
+    ├──e
+    └──+
+        ├──a
+        └──*
+            ├──b
+            └──/
+                ├──c
+                └──d
+
+---------------------
+
+Intermediate Code Generation: 
+
+a = 10
+b = 20
+c = 5
+s = "string!"
+ifFalse a < b GOTO L0
+T0 = b * c
+T1 = a + T0
+a = T1
+c = b
+L0: d = 10
+L1: ifFalse char in s GOTO L2
+goto L1
+L2: T2 = c / d
+T3 = b * T2
+T4 = a + T3
+e = T4
+
+End of Intermediate Code Generation
+
+---------------------
+Target Code:
+
+MOV R0, #10
+
+MOV R1, #20
+
+MOV R2, #5
+
+str: .asciiz "string!"
+LDR R3, str
+LDR R4, s
+LDR R5, [R3]
+STR R5, [R4]
+
+LDR R0, a
+LDR R1, b
+CMP R0, R1
+BGE L0
+
+LDR R1, b
+LDR R3, T0
+LDR R5, [R1]
+MUL R5, R5, c
+STR R5, [R3]
+
+LDR R0, a
+LDR R5, T1
+LDR R6, [R0]
+ADD R6, R6, T0
+STR R6, [R5]
+
+LDR R5, T1
+LDR R0, a
+LDR R6, [R5]
+STR R6, [R0]
+
+LDR R1, b
+LDR R2, c
+LDR R5, [R1]
+STR R5, [R2]
+
+L0:
+MOV R5, #10
+
+LDR R6, #0
+L1:
+LDR R7, s(R6)
+ADD R6, R6, #1
+CMP R7, 0x00
+BEQ L2
+
+L2:
+LDR R2, c
+LDR R8, T2
+LDR R9, [R2]
+DIV R9, R9, d
+STR R9, [R8]
+B L1
+
+LDR R1, b
+LDR R2, T3
+LDR R6, [R1]
+MUL R6, R6, T2
+STR R6, [R2]
+
+LDR R0, a
+LDR R1, T4
+LDR R6, [R0]
+ADD R6, R6, T3
+STR R6, [R1]
+
+LDR R1, T4
+LDR R0, e
+LDR R6, [R1]
+STR R6, [R0]
+
+LDR R13 s
+STR R4, [R13]
+LDR R13 T0
+STR R3, [R13]
+LDR R13 d
+STR R5, [R13]
+LDR R13 T2
+STR R8, [R13]
+LDR R13 T3
+STR R2, [R13]
+
+End of Target Code!
