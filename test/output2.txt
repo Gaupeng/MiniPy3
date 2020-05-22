@@ -1,0 +1,291 @@
+
+SYMBOL TABLE: 
+Name   Type   Scope   Line No. Value
+[a		var		0		16		30]
+[b		var		0		16		20]
+[c		var		0		16		21]
+[d		var		0		16		33]
+[e		var		0		16		45]
+[f		var		0		16		56]
+[g		var		0		16		43]
+[h		var		0		16		33]
+[i		var		0		16		67]
+[j		var		0		16		45]
+[k		var		0		16		57]
+[l		var		0		16		33]
+[n		var		0		16		98]
+[o		var		0		16		77]
+[p		var		0		16		+]
+[m		var		0		16		]
+
+---------------------
+└──=
+    ├──a
+    └──30
+└──=
+    ├──b
+    └──20
+└──=
+    ├──c
+    └──21
+└──=
+    ├──d
+    └──33
+└──=
+    ├──e
+    └──45
+└──=
+    ├──f
+    └──56
+└──=
+    ├──g
+    └──43
+└──=
+    ├──h
+    └──33
+└──=
+    ├──i
+    └──67
+└──=
+    ├──j
+    └──45
+└──=
+    ├──k
+    └──57
+└──=
+    ├──l
+    └──33
+└──=
+    ├──n
+    └──98
+└──=
+    ├──o
+    └──77
+└──=
+    ├──p
+    └──+
+        ├──a
+        └──+
+            ├──b
+            └──+
+                ├──c
+                └──+
+                    ├──d
+                    └──+
+                        ├──e
+                        └──+
+                            ├──f
+                            └──+
+                                ├──g
+                                └──+
+                                    ├──h
+                                    └──+
+                                        ├──i
+                                        └──+
+                                            ├──j
+                                            └──+
+                                                ├──k
+                                                └──+
+                                                    ├──l
+                                                    └──+
+                                                        ├──m
+                                                        └──+
+                                                            ├──n
+                                                            └──o
+
+---------------------
+
+Intermediate Code Generation: 
+
+a = 30
+b = 20
+c = 21
+d = 33
+e = 45
+f = 56
+g = 43
+h = 33
+i = 67
+j = 45
+k = 57
+l = 33
+n = 98
+o = 77
+T0 = n + o
+T1 = m + T0
+T2 = l + T1
+T3 = k + T2
+T4 = j + T3
+T5 = i + T4
+T6 = h + T5
+T7 = g + T6
+T8 = f + T7
+T9 = e + T8
+T10 = d + T9
+T11 = c + T10
+T12 = b + T11
+T13 = a + T12
+p = T13
+
+End of Intermediate Code Generation
+
+---------------------
+Code Optimisation
+
+Performing Dead Code removal
+Performing constant propogation
+
+Substitute: a with its value: 30
+Substitute: b with its value: 20
+Substitute: c with its value: 21
+Substitute: d with its value: 33
+Substitute: e with its value: 45
+Substitute: f with its value: 56
+Substitute: g with its value: 43
+Substitute: h with its value: 33
+Substitute: i with its value: 67
+Substitute: j with its value: 45
+Substitute: k with its value: 57
+Substitute: l with its value: 33
+Substitute: n with its value: 98
+Variable: o, is never used, we can remove it.
+
+End of Code Optimisation
+
+---------------------
+Assembly Code:
+
+['a = 30', 'b = 20', 'c = 21', 'd = 33', 'e = 45', 'f = 56', 'g = 43', 'h = 33', 'i = 67', 'j = 45', 'k = 57', 'l = 33', 'n = 98', 'o = 77', 'T0 = n + o', 'T1 = m + T0', 'T2 = l + T1', 'T3 = k + T2', 'T4 = j + T3', 'T5 = i + T4', 'T6 = h + T5', 'T7 = g + T6', 'T8 = f + T7', 'T9 = e + T8', 'T10 = d + T9', 'T11 = c + T10', 'T12 = b + T11', 'T13 = a + T12', 'p = T13']
+MOV R0, #30
+
+MOV R1, #20
+
+MOV R2, #21
+
+MOV R3, #33
+
+MOV R4, #45
+
+MOV R5, #56
+
+MOV R6, #43
+
+MOV R7, #33
+
+MOV R8, #67
+
+MOV R9, #45
+
+MOV R10, #57
+
+MOV R11, #33
+
+MOV R12, #98
+
+LDR R13 a
+STR R0, [R13]
+MOV R0, #77
+
+LDR R13 b
+STR R1, [R13]
+LDR R12, n
+LDR R1, T0
+LDR R13 c
+STR R2, [R13]
+LDR R2, [R12]
+ADD R2, R2, o
+STR R2, [R1]
+
+LDR R2, m
+LDR R12, T1
+LDR R13 d
+STR R3, [R13]
+LDR R3, [R2]
+ADD R3, R3, T0
+STR R3, [R12]
+
+LDR R11, l
+LDR R2, T2
+LDR R3, [R11]
+ADD R3, R3, T1
+STR R3, [R2]
+
+LDR R10, k
+LDR R3, T3
+LDR R11, [R10]
+ADD R11, R11, T2
+STR R11, [R3]
+
+LDR R9, j
+LDR R10, T4
+LDR R11, [R9]
+ADD R11, R11, T3
+STR R11, [R10]
+
+LDR R8, i
+LDR R9, T5
+LDR R11, [R8]
+ADD R11, R11, T4
+STR R11, [R9]
+
+LDR R7, h
+LDR R8, T6
+LDR R11, [R7]
+ADD R11, R11, T5
+STR R11, [R8]
+
+LDR R6, g
+LDR R7, T7
+LDR R11, [R6]
+ADD R11, R11, T6
+STR R11, [R7]
+
+LDR R5, f
+LDR R6, T8
+LDR R11, [R5]
+ADD R11, R11, T7
+STR R11, [R6]
+
+LDR R4, e
+LDR R5, T9
+LDR R11, [R4]
+ADD R11, R11, T8
+STR R11, [R5]
+
+LDR R4, d
+LDR R11, T10
+LDR R13 o
+STR R0, [R13]
+LDR R0, [R4]
+ADD R0, R0, T9
+STR R0, [R11]
+
+LDR R0, c
+LDR R4, T11
+LDR R13 T0
+STR R1, [R13]
+LDR R1, [R0]
+ADD R1, R1, T10
+STR R1, [R4]
+
+LDR R0, b
+LDR R1, T12
+LDR R13 T1
+STR R12, [R13]
+LDR R12, [R0]
+ADD R12, R12, T11
+STR R12, [R1]
+
+LDR R0, a
+LDR R12, T13
+LDR R13 T2
+STR R2, [R13]
+LDR R2, [R0]
+ADD R2, R2, T12
+STR R2, [R12]
+
+LDR R12, T13
+LDR R0, p
+LDR R2, [R12]
+STR R2, [R0]
+
