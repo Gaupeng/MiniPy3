@@ -34,7 +34,6 @@ while e < g:
 x = 15
 y = a * b + c / d - e + f
 
-
 # for loop
 for char in s:
     a = a

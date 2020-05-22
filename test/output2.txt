@@ -153,139 +153,197 @@ Variable: o, is never used, we can remove it.
 End of Code Optimisation
 
 ---------------------
-Assembly Code:
+Target Code:
 
-['a = 30', 'b = 20', 'c = 21', 'd = 33', 'e = 45', 'f = 56', 'g = 43', 'h = 33', 'i = 67', 'j = 45', 'k = 57', 'l = 33', 'n = 98', 'o = 77', 'T0 = n + o', 'T1 = m + T0', 'T2 = l + T1', 'T3 = k + T2', 'T4 = j + T3', 'T5 = i + T4', 'T6 = h + T5', 'T7 = g + T6', 'T8 = f + T7', 'T9 = e + T8', 'T10 = d + T9', 'T11 = c + T10', 'T12 = b + T11', 'T13 = a + T12', 'p = T13']
-MOV R0, #30
+MOV R0, #10
 
 MOV R1, #20
 
-MOV R2, #21
+MOV R2, #30
 
-MOV R3, #33
+MOV R3, #5
 
-MOV R4, #45
+str: .asciiz "someString!"
+LDR R4, str
+LDR R5, s
+LDR R6, [R4]
+STR R6, [R5]
 
-MOV R5, #56
-
-MOV R6, #43
-
-MOV R7, #33
-
-MOV R8, #67
-
-MOV R9, #45
-
-MOV R10, #57
-
-MOV R11, #33
-
-MOV R12, #98
-
-LDR R13 a
-STR R0, [R13]
-MOV R0, #77
-
-LDR R13 b
-STR R1, [R13]
-LDR R12, n
-LDR R1, T0
-LDR R13 c
-STR R2, [R13]
-LDR R2, [R12]
-ADD R2, R2, o
-STR R2, [R1]
-
-LDR R2, m
-LDR R12, T1
-LDR R13 d
-STR R3, [R13]
-LDR R3, [R2]
-ADD R3, R3, T0
-STR R3, [R12]
-
-LDR R11, l
-LDR R2, T2
-LDR R3, [R11]
-ADD R3, R3, T1
-STR R3, [R2]
-
-LDR R10, k
-LDR R3, T3
-LDR R11, [R10]
-ADD R11, R11, T2
-STR R11, [R3]
-
-LDR R9, j
-LDR R10, T4
-LDR R11, [R9]
-ADD R11, R11, T3
-STR R11, [R10]
-
-LDR R8, i
-LDR R9, T5
-LDR R11, [R8]
-ADD R11, R11, T4
-STR R11, [R9]
-
-LDR R7, h
-LDR R8, T6
-LDR R11, [R7]
-ADD R11, R11, T5
-STR R11, [R8]
-
-LDR R6, g
-LDR R7, T7
-LDR R11, [R6]
-ADD R11, R11, T6
-STR R11, [R7]
-
-LDR R5, f
-LDR R6, T8
-LDR R11, [R5]
-ADD R11, R11, T7
-STR R11, [R6]
-
-LDR R4, e
-LDR R5, T9
-LDR R11, [R4]
-ADD R11, R11, T8
-STR R11, [R5]
-
-LDR R4, d
-LDR R11, T10
-LDR R13 o
-STR R0, [R13]
-LDR R0, [R4]
-ADD R0, R0, T9
-STR R0, [R11]
-
-LDR R0, c
-LDR R4, T11
-LDR R13 T0
-STR R1, [R13]
-LDR R1, [R0]
-ADD R1, R1, T10
-STR R1, [R4]
-
-LDR R0, b
-LDR R1, T12
-LDR R13 T1
-STR R12, [R13]
-LDR R12, [R0]
-ADD R12, R12, T11
-STR R12, [R1]
+str: .asciiz "someOtherString!"
+LDR R4, str
+LDR R6, t
+LDR R7, [R4]
+STR R7, [R6]
 
 LDR R0, a
-LDR R12, T13
-LDR R13 T2
+LDR R4, T0
+LDR R7, [R0]
+DIV R7, R7, d
+STR R7, [R4]
+
+LDR R1, b
+LDR R7, T1
+LDR R8, [R1]
+MUL R8, R8, T0
+STR R8, [R7]
+
+LDR R0, a
+LDR R8, T2
+LDR R9, [R0]
+ADD R9, R9, T1
+STR R9, [R8]
+
+LDR R8, T2
+LDR R9, e
+LDR R10, [R8]
+STR R10, [R9]
+
+LDR R0, a
+LDR R8, f
+LDR R10, [R0]
+ADD R10, R10, b
+STR R10, [R8]
+
+LDR R0, a
+LDR R2, c
+CMP R0, R2
+BGE L0
+
+LDR R5, s
+LDR R0, a
+LDR R10, [R5]
+STR R10, [R0]
+
+LDR R5, s
+LDR R1, b
+LDR R10, [R5]
+STR R10, [R1]
+
+L0:
+MOV R10, #20
+
+LDR R1, b
+LDR R0, a
+CMP R1, R0
+BGE L1
+
+LDR R3, d
+LDR R8, f
+LDR R11, [R3]
+STR R11, [R8]
+
+L1:
+MOV R8, #1
+
+MOV R9, #0
+
+L2:
+LDR R9, e
+LDR R10, g
+CMP R9, R10
+BGE L3
+
+LDR R9, e
+LDR R9, e
+LDR R11, [R9]
+ADD R11, R11, f
+STR R11, [R9]
+B L2
+
+LDR R0, a
+LDR R0, a
+LDR R11, [R0]
+ADD R11, R11, e
+STR R11, [R0]
+
+LDR R1, b
+LDR R1, b
+LDR R11, [R1]
+ADD R11, R11, a
+STR R11, [R1]
+
+L3:
+MOV R11, #15
+
+LDR R9, e
+LDR R11, T3
+LDR R12, [R9]
+ADD R12, R12, f
+STR R12, [R11]
+
+LDR R3, d
+LDR R12, T4
+LDR R13 t
+STR R6, [R13]
+LDR R6, [R3]
+SUB R6, R6, T3
+STR R6, [R12]
+
+LDR R2, c
+LDR R6, T5
+LDR R13 T0
+STR R4, [R13]
+LDR R4, [R2]
+DIV R4, R4, T4
+STR R4, [R6]
+
+LDR R1, b
+LDR R4, T6
+LDR R13 T1
+STR R7, [R13]
+LDR R7, [R1]
+ADD R7, R7, T5
+STR R7, [R4]
+
+LDR R0, a
+LDR R1, T7
+LDR R7, [R0]
+MUL R7, R7, T6
+STR R7, [R1]
+
+LDR R1, T7
+LDR R7, y
+LDR R13 s
+STR R5, [R13]
+LDR R5, [R1]
+STR R5, [R7]
+
+LDR R1, #0
+L4:
+LDR R5, s(R1)
+ADD R1, R1, #1
+CMP R5, 0x00
+BEQ L5
+
+LDR R0, a
+LDR R0, a
+LDR R7, [R0]
+STR R7, [R0]
+B L4
+
+L5:
+str: .asciiz "The-End!"
+LDR R0, str
+LDR R1, z
+LDR R5, [R0]
+STR R5, [R1]
+
+LDR R13 f
+STR R8, [R13]
+LDR R13 g
+STR R10, [R13]
+LDR R13 e
+STR R9, [R13]
+LDR R13 T3
+STR R11, [R13]
+LDR R13 d
+STR R3, [R13]
+LDR R13 T4
+STR R12, [R13]
+LDR R13 c
 STR R2, [R13]
-LDR R2, [R0]
-ADD R2, R2, T12
-STR R2, [R12]
-
-LDR R12, T13
-LDR R0, p
-LDR R2, [R12]
-STR R2, [R0]
-
+LDR R13 T5
+STR R6, [R13]
+LDR R13 T6
+STR R4, [R13]
+End of Target Code!

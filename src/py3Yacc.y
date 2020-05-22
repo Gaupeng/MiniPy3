@@ -150,8 +150,8 @@ loops :  FOR SPACE conditions COLON body        {
                                                         }
         ;
 
-body :  NL TAB stmt repeat_stmt body {newVec2.push_back($3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;;}
-        | NL SPACE stmt repeat_stmt body {newVec2.push_back($3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;}
+body :  NL TAB stmt repeat_stmt body {newVec2.insert(newVec2.begin(), $3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;;}
+        | NL SPACE stmt repeat_stmt body {newVec2.insert(newVec2.begin(), $3.nodePtr);  ASTArray.pop_back(); childCount++; $$ = $3;}
         | NL {$$ = $1;}
         ;
 
