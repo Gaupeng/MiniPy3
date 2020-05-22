@@ -10,7 +10,7 @@ i = 67
 j = 45
 k = 57
 l = 33
-n = 98
-o = 77
+m = 98
+n = 77
 
-p = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o
+o = a + b + c + d + e + f + g + h + i + j + k + l + m + n + o

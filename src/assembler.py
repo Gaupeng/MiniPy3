@@ -1,7 +1,7 @@
 # open output file
 # extract ICG from file
 import sys
-sys.stdout = open('../test/output.txt', 'a')
+sys.stdout = open('../test/output2.txt', 'a')
 goto = ""
 
 variableCount = {}
@@ -23,7 +23,7 @@ def extractICG(filename):
     return extractList
 
 
-ICG = extractICG('../test/output.txt')
+ICG = extractICG('../test/output2.txt')
 
 def findBinOp(op):
     if op == "+":
