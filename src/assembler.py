@@ -50,7 +50,7 @@ def findRelOp(op):
 
 
 def assignOp(ele, indexele):
-    global registerCount, goto
+    global goto
     spaceSplit = ele.split()
     if len(spaceSplit) == 3:
         if spaceSplit[2].isdigit():

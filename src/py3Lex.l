@@ -23,6 +23,7 @@ STRING_LIT \"([^\"\n])*\"|\'([^\'\n])*\'
 "else"                              {return (ELSE);}
 "for"                               {return (FOR);}
 "while"                             {return (WHILE);}
+"import"                            {return (IMPORT);}
 "return"                            {return (RET);}
 "in"                                {yylval.type = "binOp"; yylval.value = "in";return (IN);}
 "elif"|"is"|"lambda"|"not"          {return (KEYWORD);}

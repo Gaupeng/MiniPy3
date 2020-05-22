@@ -79,7 +79,6 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
     node * newNode = new node;
     newNode->type.assign(type);
     newNode->value.assign(value);
-    // cout << "Created AST Node: " << newNode->type << ": " << newNode->value << endl;
     if(type == "ID")
     {
         token * tempRec = getRecord(st, value);
@@ -97,13 +96,6 @@ node * createNode(symbolTable *st, std::string type, std::string value, std::vec
     {
         newNode->ptrVec.push_back(vec[i]);
     }
-    // if(len > 0)
-    // {
-    //     for(int i = 0; i < len; i++)
-    //     {
-    //         cout << "\t child: " << newNode->ptrVec[i]->type << ": " << newNode->ptrVec[i]->value << endl;
-    //     }
-    // }
     return newNode;
 }
 
@@ -332,7 +324,6 @@ node * createNodeICG(symbolTable *st, node * currNode, int * tCount,
         newNode->record = tempRec;
         return newNode;      
     }
-
     else if(isKey(currNode))
     {
         if(currNode->value == "if")

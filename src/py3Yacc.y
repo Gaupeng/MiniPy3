@@ -7,10 +7,11 @@
     extern char * yytext;
     int valid = 1;
     int childCount = 0;
+    int printChildCount = 0;
     std::vector<node *> nullVec;
     std::vector<node *> newVec;
     std::vector<node *> newVec2;
-
+    std::vector<node *> printVec;
     std::vector<node *> ASTArray;
     std::vector<quad *> quadTable;
     std::vector<varCount *> countTable;
@@ -18,7 +19,7 @@
 
 %token KEYWORD STRING_LIT NUMBER ID ENDF
 %token PRINT NL COLON GTE LTE GT LT TAB
-%token FOR WHILE IF ELSE IN DEF CLASS RETURN
+%token FOR WHILE IF ELSE IN DEF CLASS RETURN IMPORT
 %token RET SPACE COMMA SEMICOLON ERROR
 %left PLUS MINUS
 %left MUL DIVIDE
@@ -32,7 +33,6 @@ S :     stmt S {$$  = $1;}
                 printSymTable(&st);
                 printArray(ASTArray);
                 printICG(&st, ASTArray, quadTable, countTable);
-                printCount(countTable);
                 exit(1);}
     ;
 
@@ -57,12 +57,39 @@ cond_lit :      ID
 stmt :  expre   {$$ = $1;}
         |       loops   {$$ = $1;}
         |       arith_expr      {$$ = $1;}
+        |       import_stmt {$$ = $1;}
+        |       print_stmt {$$ = $1;}
         ;
 
 repeat_stmt :   %empty
                 | stmt repeat_stmt {$$ = $1;}
                 ;
-    
+
+print_stmt :    PRINT LBRACKET print_internals RBRACKET {
+                                                        $$.nodePtr = createNode(&st, "PRINT", "print", printVec, printChildCount);
+                                                        ASTArray.push_back($$.nodePtr);
+                                                        printChildCount = 0;
+                                                        printVec.clear();}
+                ;
+
+print_internals : cond_lit COMMA SPACE print_internals  {
+                                                        printVec.insert(printVec.begin(), $1.nodePtr);
+                                                        printChildCount++; $$ = $4;
+                                                        }
+                | cond_lit {printVec.insert(printVec.begin(), $1.nodePtr); printChildCount++; $$ = $1;}
+                ;
+
+
+import_stmt :   IMPORT SPACE cond_lit       {
+                                newVec.clear();
+                                newVec.push_back($3.nodePtr);
+                                newVec.push_back(NULL);
+                                $1.nodePtr = createNode(&st, "IMPORT", "import", newVec, 2);
+                                $$ = $1;
+                                ASTArray.push_back($$.nodePtr);
+                                }
+                ;
+
 expre : ID EQ arith_expr        {
                                 modifyID(&st, $1.value, $3.nodePtr);
                                 $1.nodePtr = createNode(&st, "ID", $1.value, nullVec, 0);
