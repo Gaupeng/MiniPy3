@@ -30,7 +30,6 @@ void printSymTable(symbolTable *st)
 
     Taking an example:
         d = a + b + 10
-        F = G
     If the AST created a node for the RHS it would look like the following:
 
              +   ---------------> d looks at this

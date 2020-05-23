@@ -33,6 +33,7 @@ S :     stmt S {$$  = $1;}
                 printSymTable(&st);
                 printArray(ASTArray);
                 printICG(&st, ASTArray, quadTable, countTable);
+                printCount(countTable);
                 exit(1);}
     ;
 
