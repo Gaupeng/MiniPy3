@@ -1,10 +1,10 @@
 # open output file
 # extract ICG from file
 import sys
-sys.stdout = open('../test/output2.txt', 'a')
 goto = ""
-
 variableCount = {}
+
+outputs = ['../test/output.txt', '../test/output2.txt', '../test/output3.txt']
 
 
 def extractICG(filename):
@@ -166,7 +166,6 @@ def deleteregister(variable, index):
 def assembler(ICG):
     global goto
     for ind in range(len(ICG)):
-        # incVariableCount()
         ele = ICG[ind]
         if ':' in ele and '=' in ele:
             # if/for/while exit branch
@@ -228,7 +227,11 @@ def store():
         del variableCount[var]
 
 
-print("Target Code:\n")
-assembler(ICG)
-store()
-print("\nEnd of Target Code!")
+for output in outputs:
+    sys.stdout = open(output, 'a')
+    goto = ""
+    ICG = extractICG(output)
+    print("Target Code:\n")
+    assembler(ICG)
+    store()
+    print("\nEnd of Target Code!")
