@@ -126,6 +126,29 @@ o = T12
 End of Intermediate Code Generation
 
 ---------------------
+Code Optimisation
+
+Performing Dead Code removal
+Performing constant propogation
+
+Substitute: a with its value: 30
+Substitute: b with its value: 20
+Substitute: c with its value: 21
+Substitute: d with its value: 33
+Substitute: e with its value: 45
+Substitute: f with its value: 56
+Substitute: g with its value: 43
+Substitute: h with its value: 33
+Substitute: i with its value: 67
+Substitute: j with its value: 45
+Substitute: k with its value: 57
+Substitute: l with its value: 33
+Substitute: m with its value: 98
+Variable: n, is never used, we can remove it.
+
+End of Code Optimisation
+
+---------------------
 Target Code:
 
 MOV R0, #30

@@ -7,7 +7,7 @@ Name   Type   Scope   Line No. Value
 [c		var		0		21		b]
 [s		var		0		18		"string!"]
 [d		var		0		21		10]
-[char	var		1		19		]
+[char		var		1		19		]
 [e		var		0		21		+]
 
 ---------------------
@@ -79,6 +79,20 @@ T4 = a + T3
 e = T4
 
 End of Intermediate Code Generation
+
+---------------------
+Code Optimisation
+
+Performing Dead Code removal
+Performing constant propogation
+
+Substitute: a with its value: 10
+Substitute: b with its value: 20
+Substitute: c with its value: b
+Variable: s, is never used, we can remove it.
+Variable: d, is never used, we can remove it.
+
+End of Code Optimisation
 
 ---------------------
 Target Code:

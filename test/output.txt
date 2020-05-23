@@ -170,6 +170,26 @@ L5: z = "The-End!"
 End of Intermediate Code Generation
 
 ---------------------
+Code Optimisation
+
+Performing Dead Code removal
+Performing constant propogation
+
+Substitute: a with its value: a
+Substitute: b with its value: s
+Substitute: c with its value: 30
+Substitute: d with its value: 5
+Substitute: s with its value: "someString!"
+Variable: t, is never used, we can remove it.
+Variable: g, is never used, we can remove it.
+Substitute: f with its value: 1
+Variable: e, is never used, we can remove it.
+Variable: x, is never used, we can remove it.
+Variable: z, is never used, we can remove it.
+
+End of Code Optimisation
+
+---------------------
 Target Code:
 
 MOV R0, #10
